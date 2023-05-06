@@ -1,5 +1,5 @@
 class Button {
-    path;
+    path2D;
     constructor(x, y, w, h, round, c, text, canvas){
         this.x = x;
         this.y = y;
@@ -28,7 +28,7 @@ class Button {
         this.ctx.textBaseline = 'middle';
 
         this.ctx.strokeText(this.text, x, this.y + 25);
-        this.path = path;
+        this.path2D = path;
     }
 }
 export {Button}

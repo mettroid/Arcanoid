@@ -9,7 +9,7 @@ class Game {
         this.score = 0;
         this.collections = images;
     }
-    async screen_saver(btnEasy, btnNormal, btnDifficult, title){
+    async screen_saver([btnEasy, btnNormal, btnDifficult], title){
         let back = await createImageBitmap(this.collections[0], 0, 0, 80, 85); //background
         const pattern = this.ctx.createPattern(back, 'repeat');
         this.ctx.fillStyle = pattern;
