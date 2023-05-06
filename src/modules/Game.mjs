@@ -1,7 +1,9 @@
 class Game {
     lives;
     paths = {};
-    constructor(canvas, images){
+    fps;
+    constructor(canvas, images, fps){
+        this.fps = fps;
         this.canvas = canvas;
         this.ctx = canvas.ctx;
         this.score = 0;
