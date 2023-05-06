@@ -9,6 +9,7 @@ myCanvas.create();
 
 let game;
 let ball, paddle;
+let pictureColl;
 
 window.onload = function(){
     if(myCanvas.ctx){
@@ -17,10 +18,10 @@ window.onload = function(){
 }
 async function init(){
     try {
-        let images = await import('./modules/images.mjs');
-        let picColl = await Promise.all(Wrap.promise(images));
-        game = new Game(3, myCanvas.ctx);
-        game.screen_saver(picColl[1]);
+        let images = await import('./modules/images.mjs'); //sprite1 sprite2 ..
+        pictureColl = await Promise.all(Wrap.promise(images));
+        game = new Game(myCanvas, pictureColl);
+        game.screen_saver();
 
         
     } catch (error) {

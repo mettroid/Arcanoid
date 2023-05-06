@@ -1,4 +1,3 @@
-import start from '../images/start.jpg';
-import gamepad from '../images/gamepad.jpg';
+import sprites from '../images/sprites.png';
 
-export {start, gamepad};
+export {sprites};
