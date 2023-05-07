@@ -16,10 +16,12 @@ class Animate {
           let self = this;
           let index = 0;
           let basic = obj.subObj;           //оригинальный изменяемый объект
-          let curr = obj.changes[index];    //перебираемый объект анимации
+          let curr = obj.changes[index];    //перебираемый массив анимации
           let step = getStep(basic, curr);
           let sleepping = false;
-
+        
+          console.log(step);
+          //return;
           return function animate(){
             if(sleepping) return;
             if(!step){
@@ -28,15 +30,25 @@ class Animate {
                     return switch_curr();
                 }, curr.sleep);
                 sleepping = true;
+                return;
             }
 
             let end_reacher = null;
-            let newValue = basic[curr.prop] + step;
-            if(step < 0 && newValue < curr.to || step > 0 && newValue > curr.to){
+            for(let objSettings of step){
+                let newValue = basic[objSettings.prop] + objSettings.step;
+                console.log(newValue);
+                if(objSettings.step > 0 && newValue > objSettings.to || objSettings.step < 0 && newValue < objSettings.to){
+                    newValue = objSettings.to;
+                    end_reacher = true;
+                }
+                basic[objSettings.prop] = newValue;
+            }
+           // let newValue = basic[curr.prop] + step;
+            /*if(step < 0 && newValue < curr.to || step > 0 && newValue > curr.to){
                 newValue = curr.to;
                 end_reacher = true;
             }
-            basic[curr.prop] = newValue;
+            basic[curr.prop] = newValue;*/
             if(end_reacher){
                 return switch_curr();
             }
@@ -49,11 +61,16 @@ class Animate {
                 delete self.list[obj.subObj.name];
                 return;
              }
-             step = curr.sleep? null : getStep(basic, curr); 
+             step = curr[0].sleep? null : getStep(basic, curr); 
           }
           function getStep(basic, curr){
-            let from = basic[curr.prop];
-            return (curr.to - from) / (60 * curr.ms / 1000);
+            for(let objSettings of curr){
+                let from = basic[objSettings.prop];
+            
+                let diff = objSettings.to - from;
+                objSettings.step = diff / (60 * objSettings.ms  / 1000);
+            }
+            return curr;
         }
     }
 }

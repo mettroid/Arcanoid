@@ -39,16 +39,28 @@ function mouseMoveHandler(e){
                  myCanvas.ctx.isPointInPath(btnDifficult.path2D, coords.x, coords.y) && btnDifficult;
 
     if(!button && currObj !== null){ 
-        currObj = null 
+        currObj = null; 
     }
-    if(!button || button === currObj) return;
-    
+    if(!button || button === currObj || currObj !== null && button !== currObj) return;
+    let nameBtn = button.name;
     animate.addObj({
             subObj: button,
             changes: [
-                {prop: 'w', to: 300, ms: 200},
-                {sleep: 100},
-                {prop: 'w', to: 270, ms: 200}
+                        [
+                            { prop: 'w', to: 260, ms: 500 },
+                            { prop: 'h', to: 60, ms: 500 },
+                            { prop: 'x', to: 220, ms: 500 },
+                            { prop: 'y', to: nameBtn === 'easy'? 495 : nameBtn === 'normal'? 565 :  nameBtn === 'difficult'? 635 : 0, ms: 500 }
+                        ],
+                        [ 
+                            { sleep: 100 },
+                        ],
+                        [
+                            { prop: 'w', to: 250, ms: 500 },
+                            { prop: 'h', to: 50, ms: 500 },
+                            { prop: 'x', to: 225, ms: 500 },
+                            { prop: 'y', to: nameBtn ===  'easy'? 500 : nameBtn ===  'normal'? 570 : nameBtn ===  'difficult'? 640 : 0, ms: 500 }
+                        ]
             ]
     });
     currObj = button;
@@ -83,7 +95,7 @@ function draw(){
     
                 break;
             }
-            if(time - start > 10000) return;
+            if(time - start > 15000) return;
             requestAnimationFrame(frame_loop);
         });
     });
