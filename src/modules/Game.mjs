@@ -9,9 +9,9 @@ class Game {
         this.score = 0;
         this.collections = images;
     }
-    async screen_saver([btnEasy, btnNormal, btnDifficult], title){
-        let back = await createImageBitmap(this.collections[0], 0, 0, 80, 85); //background
-        const pattern = this.ctx.createPattern(back, 'repeat');
+    async screen_saver(btnEasy, btnNormal, btnDifficult, title){
+        let imgBitMap = await createImageBitmap(this.collections[0], 0, 0, 80, 85); //background
+        const pattern = this.ctx.createPattern(imgBitMap, 'repeat');
         this.ctx.fillStyle = pattern;
         this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
 
@@ -19,7 +19,6 @@ class Game {
         btnEasy.draw();
         btnNormal.draw();
         btnDifficult.draw();
-
     }   
     game_over(canvas){
 

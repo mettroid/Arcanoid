@@ -1,13 +1,13 @@
 class Button {
     path2D;
-    constructor(x, y, w, h, round, c, text, canvas){
+    constructor(x, y, w, h, round, c, name, canvas){
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
         this.round = round;
         this.c = c;
-        this.text = text;
+        this.name = name;
         this.canvas = canvas;
         this.ctx = canvas.ctx;
     }
@@ -27,7 +27,7 @@ class Button {
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
 
-        this.ctx.strokeText(this.text, x, this.y + 25);
+        this.ctx.strokeText(this.name, x, this.y + 25);
         this.path2D = path;
     }
 }
