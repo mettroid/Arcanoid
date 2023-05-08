@@ -15,14 +15,14 @@ myCanvas.create();
 let phase = 'sceen_saver';
 let FPS = 60;
 let game;
-let menu;
+let menu; //объект обработчик событий мыши
 let ball, paddle;
 let pictureColl;
 let btnEasy, btnNormal, btnDifficult;
 let title;
-let animate = new Animate();
+let animate = new Animate(); // объект анимации
 
-let currObj = null;
+let currObj = null; // текущий объект кнопка
 
 window.onload = function(){
     if(myCanvas.ctx){
@@ -51,13 +51,14 @@ function draw(){
             myCanvas.ctx.clearRect(0,0,myCanvas.elem.width,myCanvas.elem.height);
     
             call_before_draw_frames();
-            switch(phase){
+            switch(game.phase){
                 case 'sceen_saver':
                     game.screen_saver(btnEasy, btnNormal, btnDifficult, title);
                     resolve();
                 break;
                 case 'game':
-    
+                    alert('В игре');
+                    return;
                 break;
                 case 'game_over': 
     
@@ -74,7 +75,7 @@ async function init(){
         let images = await import('./modules/images.mjs'); //sprite1 sprite2 ..
             pictureColl = await Promise.all(Wrap.promise(images));
             
-            game = new Game(myCanvas, pictureColl, 60);
+            game = new Game(myCanvas, pictureColl, FPS, phase);
             title = new Title('purple', 'ARCANOID', myCanvas);
             btnEasy = new Button(225, 500, 250, 50, [10,10,10,10], '#F5D209', 'easy', myCanvas);
             btnNormal = new Button(225, 570, 250, 50, [10,10,10,10], '#F56E09', 'normal', myCanvas);

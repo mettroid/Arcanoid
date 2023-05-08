@@ -1,13 +1,12 @@
 class Game {
     lives;
-    paths = {};
-    fps;
-    constructor(canvas, images, fps){
+    constructor(canvas, images, fps, phase){
         this.fps = fps;
         this.canvas = canvas;
         this.ctx = canvas.ctx;
         this.score = 0;
         this.collections = images;
+        this.phase = phase;
     }
     async screen_saver(btnEasy, btnNormal, btnDifficult, title){
         let imgBitMap = await createImageBitmap(this.collections[0], 0, 0, 80, 85); //background
