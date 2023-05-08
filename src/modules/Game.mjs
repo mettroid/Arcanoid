@@ -20,6 +20,9 @@ class Game {
         btnNormal.draw();
         btnDifficult.draw();
     }   
+    setLives(lives){
+        this.lives = lives;
+    }
     game_over(canvas){
 
     }
