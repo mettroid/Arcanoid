@@ -7,7 +7,8 @@ import {Button} from './modules/Button.mjs'
 import {ButtonsCollections} from './modules/ButtonsCollections.mjs';
 import {Animate} from './modules/Animate.mjs';
 import * as Wrap from './modules/wrap_promise.mjs';
-import {Menu} from './modules/Menu.mjs';
+import {EventsMenu} from './modules/EventsMenu.mjs';
+import {Paddle} from './modules/Paddle.mjs';
 
 let myCanvas = new Canvas('myCanvas', document.getElementById('field'), 600, 600);
 myCanvas.create();
@@ -15,7 +16,7 @@ myCanvas.create();
 let phase = 'sceen_saver';
 let FPS = 60;
 let game;
-let menu; //объект обработчик событий мыши
+let eventsMenu; //объект обработчик событий мыши
 let ball, paddle;
 let pictureColl;
 let btnEasy, btnNormal, btnDifficult;
@@ -57,8 +58,9 @@ function draw(){
                     resolve();
                 break;
                 case 'game':
-                    alert('В игре');
-                    return;
+                    //alert('В игре');
+                    //return;
+                    paddle.draw(myCanvas);
                 break;
                 case 'game_over': 
     
@@ -80,13 +82,13 @@ async function init(){
             btnEasy = new Button(225, 500, 250, 50, [10,10,10,10], '#F5D209', 'easy', myCanvas);
             btnNormal = new Button(225, 570, 250, 50, [10,10,10,10], '#F56E09', 'normal', myCanvas);
             btnDifficult = new Button(225, 640, 250, 50, [10,10,10,10], '#F50927', 'difficult', myCanvas);
-            menu = new Menu(myCanvas, btnEasy, btnNormal, btnDifficult, game, animate);
-
+            eventsMenu = new EventsMenu(myCanvas, btnEasy, btnNormal, btnDifficult, game, animate);
+            paddle = new Paddle(750, 80, 25, 'blue', myCanvas.elem.width);
             await draw();
-            myCanvas.elem.addEventListener('mousemove', menu);
-            myCanvas.elem.addEventListener('click', menu);
-            myCanvas.elem.addEventListener('mousedown', menu);
-            myCanvas.elem.addEventListener('mouseup', menu);
+            myCanvas.elem.addEventListener('mousemove', eventsMenu);
+            myCanvas.elem.addEventListener('click', eventsMenu);
+            myCanvas.elem.addEventListener('mousedown', eventsMenu);
+            myCanvas.elem.addEventListener('mouseup', eventsMenu);
         
         
     } catch (error) {

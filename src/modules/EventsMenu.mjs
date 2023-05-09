@@ -1,7 +1,7 @@
 import {inRange} from 'lodash';
 import * as IsPointInPath from './isPointInPath.mjs';
 import * as Mouse from './mouseCoords.mjs';
-class Menu {
+class EventsMenu {
     currObj = null;
     startCoords = null;
     constructor(canvas, btnEasy, btnNormal, btnDifficult, game, animate){
@@ -44,6 +44,7 @@ class Menu {
                 }
                 if(!button || button === this.currObj || this.currObj !== null && button !== this.currObj) return;
                 let nameBtn = button.name;
+                console.log("*");
                 this.animate.addObj({
                         subObj: button,
                         changes: [
@@ -76,4 +77,4 @@ class Menu {
         });
     }
 }
-export {Menu}
+export {EventsMenu}
