@@ -1,18 +1,19 @@
+import {Events} from './Events.mjs';
 import {inRange} from 'lodash';
 import * as IsPointInPath from './isPointInPath.mjs';
 import * as Mouse from './mouseCoords.mjs';
-class EventsMenu {
+class EventsMenu extends Events {
     currObj = null;
     startCoords = null;
-    constructor(canvas, btnEasy, btnNormal, btnDifficult, game, animate){
+    constructor(btnEasy, btnNormal, btnDifficult, canvas, game, animate){
+        super(canvas, game, animate);
         this.btnEasy = btnEasy;
         this.btnNormal = btnNormal;
         this.btnDifficult = btnDifficult;
-        this.canvas = canvas;
-        this.game = game;
-        this.animate = animate;
+        
     }
     handleEvent(e){
+        if(this.game.phase !== 'sceen_saver') return;
         switch(e.type){
             case 'mousedown':
                 this.startCoords = Mouse.getCoords(e, this.canvas.elem);

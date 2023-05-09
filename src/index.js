@@ -8,6 +8,7 @@ import {ButtonsCollections} from './modules/ButtonsCollections.mjs';
 import {Animate} from './modules/Animate.mjs';
 import * as Wrap from './modules/wrap_promise.mjs';
 import {EventsMenu} from './modules/EventsMenu.mjs';
+import {EventsGame} from './modules/EventsGame.mjs';
 import {Paddle} from './modules/Paddle.mjs';
 
 let myCanvas = new Canvas('myCanvas', document.getElementById('field'), 600, 600);
@@ -16,7 +17,7 @@ myCanvas.create();
 let phase = 'sceen_saver';
 let FPS = 60;
 let game;
-let eventsMenu; //объект обработчик событий мыши
+let eventsMenu, eventsGame; //объект обработчик событий мыши
 let ball, paddle;
 let pictureColl;
 let btnEasy, btnNormal, btnDifficult;
@@ -82,14 +83,18 @@ async function init(){
             btnEasy = new Button(225, 500, 250, 50, [10,10,10,10], '#F5D209', 'easy', myCanvas);
             btnNormal = new Button(225, 570, 250, 50, [10,10,10,10], '#F56E09', 'normal', myCanvas);
             btnDifficult = new Button(225, 640, 250, 50, [10,10,10,10], '#F50927', 'difficult', myCanvas);
-            eventsMenu = new EventsMenu(myCanvas, btnEasy, btnNormal, btnDifficult, game, animate);
-            paddle = new Paddle(750, 80, 25, 'blue', myCanvas.elem.width);
+            eventsMenu = new EventsMenu(btnEasy, btnNormal, btnDifficult, myCanvas, game, animate);
+            
             await draw();
             myCanvas.elem.addEventListener('mousemove', eventsMenu);
             myCanvas.elem.addEventListener('click', eventsMenu);
             myCanvas.elem.addEventListener('mousedown', eventsMenu);
             myCanvas.elem.addEventListener('mouseup', eventsMenu);
-        
+
+            paddle = new Paddle(750, 80, 25, 'blue', myCanvas.elem.width);
+            eventsGame = new EventsGame(paddle, myCanvas, game, animate);
+            document.addEventListener('keydown', eventsGame);
+            document.addEventListener('keyup', eventsGame);
         
     } catch (error) {
         console.log(error.message);
