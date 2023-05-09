@@ -10,6 +10,7 @@ import * as Wrap from './modules/wrap_promise.mjs';
 import {EventsMenu} from './modules/EventsMenu.mjs';
 import {EventsGame} from './modules/EventsGame.mjs';
 import {Paddle} from './modules/Paddle.mjs';
+import {Ball} from './modules/ball.mjs';
 
 let myCanvas = new Canvas('myCanvas', document.getElementById('field'), 600, 600);
 myCanvas.create();
@@ -62,12 +63,13 @@ function draw(){
                     //alert('В игре');
                     //return;
                     paddle.draw(myCanvas);
+                    ball.draw(myCanvas);
                 break;
                 case 'game_over': 
     
                 break;
             }
-            if(time - start > 15000) return;
+            if(time - start > 25000) return;
             requestAnimationFrame(frame_loop);
         });
     });
@@ -91,7 +93,8 @@ async function init(){
             myCanvas.elem.addEventListener('mousedown', eventsMenu);
             myCanvas.elem.addEventListener('mouseup', eventsMenu);
 
-            paddle = new Paddle(750, 80, 25, 'blue', myCanvas.elem.width);
+            paddle = new Paddle(310, 750, 80, 25, 'blue', myCanvas.elem.width);
+            ball = new Ball(350, 740, 10, 0, Math.PI * 2, "red", myCanvas.elem.width);
             eventsGame = new EventsGame(paddle, myCanvas, game, animate);
             document.addEventListener('keydown', eventsGame);
             document.addEventListener('keyup', eventsGame);
