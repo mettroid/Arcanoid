@@ -1,13 +1,17 @@
 class Paddle {
-    constructor(y, w, h, color, canvasWidth){
-        this.x = Math.floor((canvasWidth - w) / 2);
+    pressedLeft = false;
+    pressedRight = false;
+    middleFigureX;
+    constructor(x, y, w, h, color){
+        this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
         this.color = color;
-        this.middleFigureX = Math.floor(this.x + (w / 2));
     }
     draw(canvas){
+        this.middleFigureX = Math.floor(this.x + (this.w / 2));
+        this.invertDirection(canvas);
         canvas.ctx.beginPath();
         canvas.ctx.fillStyle = this.color;
         canvas.ctx.moveTo(this.x, this.y);
@@ -17,6 +21,14 @@ class Paddle {
         canvas.ctx.closePath();
         canvas.ctx.fill();
         canvas.ctx.stroke();
+    }
+    invertDirection(canvas){
+        if(this.pressedRight && this.x + this.w < canvas.width){
+            this.x += 2;
+        }
+        if(this.pressedLeft && this.x > 0){
+            this.x -= 2;
+        }
     }
 }
 export {Paddle}
