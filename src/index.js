@@ -95,7 +95,7 @@ async function init(){
 
             paddle = new Paddle(310, 750, 80, 25, 'blue', myCanvas.elem.width);
             ball = new Ball(350, 740, 10, 0, Math.PI * 2, "red", myCanvas.elem.width);
-            eventsGame = new EventsGame(paddle, myCanvas, game, animate);
+            eventsGame = new EventsGame(ball, paddle, myCanvas, game, animate);
             document.addEventListener('keydown', eventsGame);
             document.addEventListener('keyup', eventsGame);
         
