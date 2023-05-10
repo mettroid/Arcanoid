@@ -47,5 +47,10 @@ class Ball {
             });   
         }
     }
+    outField(paddle, game){
+        if(this.y + this.r > paddle.y + paddle.h){
+            game.phase = 'game_over';
+        }
+    }
 }
 export {Ball}

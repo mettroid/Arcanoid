@@ -66,9 +66,11 @@ function draw(){
                     ball.draw(myCanvas);
                     ball.hitWall(myCanvas);
                     ball.hitPaddle(paddle, animate);
+                    ball.outField(paddle, game);
                 break;
                 case 'game_over': 
-    
+                    game.game_over();
+                    return;
                 break;
             }
             if(time - start > 25000) return;

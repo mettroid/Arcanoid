@@ -22,8 +22,15 @@ class Game {
     setLives(lives){
         this.lives = lives;
     }
-    game_over(canvas){
-
+    game_over(){
+        let x = Math.floor(this.canvas.elem.width / 2);
+        let y = Math.floor(this.canvas.elem.height / 2);
+        this.canvas.ctx.beginPath();
+        this.canvas.ctx.fillStyle = 'red';
+        this.canvas.ctx.font = '60px comic';
+        this.canvas.ctx.textAlign = 'center';
+        this.canvas.ctx.fillText('GAME OVER', x, y);
+        this.canvas.ctx.closePath();
     }
 
 }
