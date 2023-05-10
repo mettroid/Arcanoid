@@ -64,6 +64,8 @@ function draw(){
                     //return;
                     paddle.draw(myCanvas);
                     ball.draw(myCanvas);
+                    ball.hitWall(myCanvas);
+                    ball.hitPaddle(paddle);
                 break;
                 case 'game_over': 
     

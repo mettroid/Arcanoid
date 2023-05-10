@@ -1,3 +1,4 @@
+import { inRange } from "lodash";
 class Ball {
     dx = 0;
     dy = 0;
@@ -11,7 +12,7 @@ class Ball {
         this.color = color;
     }
     draw(canvas){
-        this.ballRicochet(canvas);
+        //this.hitWall(canvas);
         canvas.ctx.beginPath();
         canvas.ctx.fillStyle = this.color;
         canvas.ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
@@ -21,11 +22,16 @@ class Ball {
         this.x += this.dx;
         this.y += this.dy;
     }
-    ballRicochet(canvas){
+    hitWall(canvas){
         if(this.x + this.r > canvas.elem.width || this.x - this.r < 0){
             this.dx = -this.dx;
         }
-        if(this.y - this.r < 0 || this.y + this.r > canvas.elem.height){
+        if(this.y - this.r < 0){
+            this.dy = -this.dy;
+        }
+    }
+    hitPaddle(paddle){
+        if(this.y + this.r > paddle.y && inRange(this.x, paddle.x, paddle.x + paddle.w)){
             this.dy = -this.dy;
         }
     }
