@@ -24,7 +24,7 @@ let pictureColl;
 let btnEasy, btnNormal, btnDifficult;
 let title;
 let animate = new Animate(); // объект анимации
-
+console.log(animate);
 let currObj = null; // текущий объект кнопка
 
 window.onload = function(){
@@ -65,7 +65,7 @@ function draw(){
                     paddle.draw(myCanvas);
                     ball.draw(myCanvas);
                     ball.hitWall(myCanvas);
-                    ball.hitPaddle(paddle);
+                    ball.hitPaddle(paddle, animate);
                 break;
                 case 'game_over': 
     

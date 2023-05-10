@@ -30,9 +30,21 @@ class Ball {
             this.dy = -this.dy;
         }
     }
-    hitPaddle(paddle){
+    hitPaddle(paddle, animate){
+        console.log(animate);
         if(this.y + this.r > paddle.y && inRange(this.x, paddle.x, paddle.x + paddle.w)){
             this.dy = -this.dy;
+            animate.addObj({
+                subObj: paddle,
+                changes: [
+                    [
+                        { prop: 'curveY', to: 760, ms: 100 }
+                    ],
+                    [
+                        { prop: 'curveY', to: 750, ms: 100 }
+                    ]
+                ]
+            });   
         }
     }
 }
