@@ -46,6 +46,36 @@ class Ball {
             });   
         }
     }
+    hitBrick(collectionBricks){
+        
+        let bricks = collectionBricks.getColl();
+        for(let i = 0; i < collectionBricks.brickColumnCount; i++){
+            
+            for(let j = 0; j < collectionBricks.brickRowCount; j++){
+                
+                let brick = bricks[i][j];
+                if(!brick.visible) continue;
+                if(this.y - this.r > brick.y && this.y - this.r < brick.y + brick.h || //удар в кирпич во y
+                   this.y + this.r < brick.y + brick.h && this.y + this.r > brick.y){
+                    if(inRange(this.x, brick.x, brick.x + brick.w)){
+                        console.log('V');
+                        brick.visible = false;
+                        this.dy = -this.dy;
+                        console.log(brick);
+                    }
+                }
+                if(this.x + this.r < brick.x + brick.w && this.x + this.r > brick.x || //удар в кирпич по x
+                   this.x - this.r > brick.x && this.x - this.r < brick.x + brick.w){
+                    if(inRange(this.y, brick.y, brick.y + brick.h)){
+                        console.log('X');
+                        brick.visible = false;
+                        this.dx = -this.dx;
+                        console.log(brick);
+                    }
+                } 
+            }
+        }
+    }
     outField(paddle, game){
         if(this.y + this.r > paddle.y + paddle.h){
             game.phase = 'game_over';

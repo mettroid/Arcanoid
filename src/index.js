@@ -68,6 +68,7 @@ function draw(){
                     ball.draw(myCanvas);
                     ball.hitWall(myCanvas);
                     ball.hitPaddle(paddle, animate);
+                    ball.hitBrick(collectionBricks);
                     collectionBricks.draw(myCanvas);
                     ball.outField(paddle, game);
                 break;
@@ -76,7 +77,7 @@ function draw(){
                     return;
                 break;
             }
-            if(time - start > 25000) return;
+            if(time - start > 30000) return;
             requestAnimationFrame(frame_loop);
         });
     });
