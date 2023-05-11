@@ -31,7 +31,6 @@ class Ball {
         }
     }
     hitPaddle(paddle, animate){
-        console.log(animate);
         if(this.y + this.r > paddle.y && inRange(this.x, paddle.x, paddle.x + paddle.w)){
             this.dy = -this.dy;
             animate.addObj({

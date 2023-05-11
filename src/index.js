@@ -11,6 +11,8 @@ import {EventsMenu} from './modules/EventsMenu.mjs';
 import {EventsGame} from './modules/EventsGame.mjs';
 import {Paddle} from './modules/Paddle.mjs';
 import {Ball} from './modules/ball.mjs';
+import { CollectionBricks } from './modules/CollectionBricks.mjs';
+import { Brick } from './modules/brick.mjs';
 
 let myCanvas = new Canvas('myCanvas', document.getElementById('field'), 600, 600);
 myCanvas.create();
@@ -24,6 +26,7 @@ let pictureColl;
 let btnEasy, btnNormal, btnDifficult;
 let title;
 let animate = new Animate(); // объект анимации
+let collectionBricks = new CollectionBricks();
 console.log(animate);
 let currObj = null; // текущий объект кнопка
 
@@ -49,8 +52,7 @@ function draw(){
         requestAnimationFrame(function frame_loop(time){
             if(FPS === 30) miss_frame = !miss_frame;
             if(miss_frame) requestAnimationFrame(frame_loop);
-    
-            console.log('!');
+
             myCanvas.ctx.clearRect(0,0,myCanvas.elem.width,myCanvas.elem.height);
     
             call_before_draw_frames();
@@ -66,6 +68,7 @@ function draw(){
                     ball.draw(myCanvas);
                     ball.hitWall(myCanvas);
                     ball.hitPaddle(paddle, animate);
+                    collectionBricks.draw(myCanvas);
                     ball.outField(paddle, game);
                 break;
                 case 'game_over': 
@@ -99,6 +102,7 @@ async function init(){
 
             paddle = new Paddle(310, 750, 80, 25, 'blue', myCanvas.elem.width);
             ball = new Ball(350, 740, 10, 0, Math.PI * 2, "red", myCanvas.elem.width);
+            collectionBricks.fill(Brick);
             eventsGame = new EventsGame(ball, paddle, myCanvas, game, animate);
             document.addEventListener('keydown', eventsGame);
             document.addEventListener('keyup', eventsGame);
