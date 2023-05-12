@@ -4,23 +4,30 @@ class Paddle {
     curveX;
     curveY;
     name = 'paddle';
-    constructor(x, y, w, h, color){
+    constructor(x, y, w, h, r, color){
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
+        this.r = r;
         this.curveY = y;
         this.color = color;
     }
     draw(canvas){
-        this.curveX = Math.floor(this.x + (this.w / 2));
+        this.curveX = Math.floor(this.x + this.r + (this.w / 2));
         this.changeDirection(canvas);
         canvas.ctx.beginPath();
         canvas.ctx.fillStyle = this.color;
-        canvas.ctx.moveTo(this.x, this.y);
-        canvas.ctx.quadraticCurveTo(this.curveX, this.curveY, this.x + this.w, this.y);
-        canvas.ctx.lineTo(this.x + this.w, this.y + this.h);
-        canvas.ctx.lineTo(this.x, this.y + this.h);
+        canvas.ctx.moveTo(this.x + this.r, this.y);
+        canvas.ctx.quadraticCurveTo(this.curveX, this.curveY, this.x + this.w - this.r, this.y);
+        canvas.ctx.arcTo(this.x + this.w, this.y, this.x + this.w, this.y + this.r, this.r);
+        canvas.ctx.arcTo(this.x + this.w, this.y + this.h, this.x + this.w - this.r, this.y + this.h, this.r);
+        canvas.ctx.arcTo(this.x, this.y + this.h, this.x, this.y + this.r, this.r);
+        canvas.ctx.arcTo(this.x, this.y, this.x + this.r, this.y, this.r);
+        
+        //canvas.ctx.arcTo(this.x - this.r*2, this.y, this.x, this.y, this.y);
+        //canvas.ctx.lineTo(this.x + this.w, this.y + this.h);
+        //canvas.ctx.lineTo(this.x, this.y + this.h);
         canvas.ctx.closePath();
         canvas.ctx.fill();
         canvas.ctx.stroke();
