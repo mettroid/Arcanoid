@@ -66,7 +66,7 @@ function draw(){
                     //return;
                     paddle.draw(myCanvas);
                     ball.draw(myCanvas);
-                    ball.hitWall(myCanvas);
+                    ball.hitWall(myCanvas, animate);
                     ball.hitPaddle(paddle, animate);
                     ball.hitBrick(collectionBricks);
                     collectionBricks.draw(myCanvas);

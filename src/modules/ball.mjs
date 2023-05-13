@@ -3,6 +3,8 @@ class Ball {
     dx = 0;
     dy = 0;
     start = false;
+    squeezeHorizontal = false;
+    squeezeVertical = false;
     constructor(x, y, rX, rY, rotate, degStart, degEnd, color){
         this.x = x;
         this.y = y;
@@ -18,16 +20,38 @@ class Ball {
         canvas.ctx.fillStyle = this.color;
         canvas.ctx.ellipse(this.x, this.y, this.rX, this.rY, this.rotate, this.degStart, this.degEnd);
         canvas.ctx.fill();
+        canvas.ctx.stroke();
         canvas.ctx.closePath();
         
         this.x += this.dx;
         this.y += this.dy;
     }
-    hitWall(canvas){
+    hitWall(canvas, animate){
+        if(this.bool) return;
         if(this.x + this.rX > canvas.elem.width || this.x - this.rX < 0){
-            this.dx = -this.dx;
+            //if(animate.hasObj(this)) return;
+            if(this.squeezeHorizontal) return;
+            let ms = 50 / Math.abs(this.dx);
+            animate.addObj({
+                subObj: this,
+                changes: [
+                    [
+                        { prop: 'rX', to: 7, ms }
+                    ],
+                    [
+                        { prop: 'dx' }
+                    ],
+                    [
+                        { prop: 'rX', to: 10, ms }
+                    ]
+                ]
+            });
+            this.delay('squeezeHorizontal', ms * 2);
+
+            this.squeezeHorizontal = true;
         }
         if(this.y - this.rY < 0){
+            //if()
             this.dy = -this.dy;
         }
     }
@@ -81,6 +105,11 @@ class Ball {
         if(this.y + this.rY > paddle.y + paddle.h){
             game.phase = 'game_over';
         }
+    }
+    delay(squeeze, ms){
+        setTimeout(()=>{
+            this[squeeze] = false;
+        }, ms);
     }
 }
 export {Ball}

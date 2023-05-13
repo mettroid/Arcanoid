@@ -1,4 +1,4 @@
-import {has} from 'lodash';
+import {has, isPlainObject} from 'lodash';
 class Animate {
     constructor(){
         this.list = {};
@@ -31,6 +31,12 @@ class Animate {
                 return;
             }
 
+            if(isPlainObject(step)){
+                basic[step.prop] = -basic[step.prop];
+                console.log(basic[step.prop]);
+                return switch_curr();
+            }
+
             let end_reacher = null;
             for(let objSettings of step){
                 let newValue = basic[objSettings.prop] + objSettings.step;
@@ -52,7 +58,9 @@ class Animate {
                 delete self.list[obj.subObj.name];
                 return;
              }
-             step = curr[0].sleep? null : getStep(basic, curr); 
+             step = (curr[0].sleep)? null : 
+                    (curr[0].prop === 'dx' || curr[0].prop === 'dy')? curr[0] : //если свойство у нас инвертируемое то вернём объект с ним
+                    getStep(basic, curr); 
           }
           function getStep(basic, curr){
             for(let objSettings of curr){
