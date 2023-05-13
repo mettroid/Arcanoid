@@ -39,13 +39,17 @@ class Animate {
 
             let end_reacher = null;
             for(let objSettings of step){
+                if(objSettings.switchOff) continue; 
                 let newValue = basic[objSettings.prop] + objSettings.step;
                 if(objSettings.step > 0 && newValue > objSettings.to || objSettings.step < 0 && newValue < objSettings.to){
                     newValue = objSettings.to;
-                    end_reacher = true;
+                    objSettings.switchOff = true;
                 }
                 basic[objSettings.prop] = newValue;
             }
+            if(step.every((objSettings, ind, arr)=>objSettings.switchOff)){
+                end_reacher = true;
+            };
             if(end_reacher){
                 return switch_curr();
             }
@@ -68,6 +72,7 @@ class Animate {
             
                 let diff = objSettings.to - from;
                 objSettings.step = diff / (60 * objSettings.ms  / 1000);
+                objSettings.switchOff = false;
             }
             return curr;
         }

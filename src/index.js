@@ -77,7 +77,7 @@ function draw(){
                     return;
                 break;
             }
-            if(time - start > 30000) return;
+            if(time - start > 50000) return;
             requestAnimationFrame(frame_loop);
         });
     });

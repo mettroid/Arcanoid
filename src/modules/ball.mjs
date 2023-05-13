@@ -29,30 +29,56 @@ class Ball {
     hitWall(canvas, animate){
         if(this.bool) return;
         if(this.x + this.rX > canvas.elem.width || this.x - this.rX < 0){
-            //if(animate.hasObj(this)) return;
             if(this.squeezeHorizontal) return;
-            let ms = 50 / Math.abs(this.dx);
-            animate.addObj({
-                subObj: this,
-                changes: [
-                    [
-                        { prop: 'rX', to: 7, ms }
-                    ],
-                    [
-                        { prop: 'dx' }
-                    ],
-                    [
-                        { prop: 'rX', to: 10, ms }
+            if(this.squeezeVertical){ 
+                this.dx = -this.dx;
+                return;
+            } else {
+                let ms = 50 / Math.abs(this.dx);
+                animate.addObj({
+                    subObj: this,
+                    changes: [
+                        [
+                            { prop: 'rX', to: 7, ms }
+                        ],
+                        [
+                            { prop: 'dx' }
+                        ],
+                        [
+                            { prop: 'rX', to: 10, ms }
+                        ]
                     ]
-                ]
-            });
-            this.delay('squeezeHorizontal', ms * 2);
-
+                });
+                this.delay('squeezeHorizontal', ms * 2);
+            };
             this.squeezeHorizontal = true;
         }
         if(this.y - this.rY < 0){
-            //if()
-            this.dy = -this.dy;
+            if(this.squeezeVertical) return;
+            if(this.squeezeHorizontal){
+                this.dy = -this.dy;
+                console.log(this.dy);
+            } else {
+                let ms = 50 / Math.abs(this.dx);
+                animate.addObj({
+                    subObj: this,
+                    changes: [
+                        [
+                            { prop: 'rY', to: 5, ms }
+                        ],
+                        [
+                            { prop: 'dy' }
+                        ],
+                        [
+                            { prop: 'rY', to: 10, ms }
+                        ]
+                    ]
+                });
+                this.delay('squeezeVertical', ms * 2);
+            }
+
+
+            this.squeezeVertical = true;
         }
     }
     hitPaddle(paddle, animate){

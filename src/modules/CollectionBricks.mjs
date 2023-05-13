@@ -7,7 +7,7 @@ class CollectionBricks {
     #offsetT = 20;
     #collection;
     brickRowCount = 3;
-    brickColumnCount = 5;
+    brickColumnCount = 4;
     constructor(){ 
         this.#collection = [];
     }
