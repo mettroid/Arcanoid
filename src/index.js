@@ -102,7 +102,7 @@ async function init(){
             myCanvas.elem.addEventListener('mouseup', eventsMenu);
 
             paddle = new Paddle(310, 750, 80, 20, 10, 'blue', myCanvas.elem.width);
-            ball = new Ball(350, 740, 10, 0, Math.PI * 2, "red", myCanvas.elem.width);
+            ball = new Ball(350, 740, 10, 10, 0, 0, Math.PI*2, "red");
             collectionBricks.fill(Brick);
             eventsGame = new EventsGame(ball, paddle, myCanvas, game, animate);
             document.addEventListener('keydown', eventsGame);
