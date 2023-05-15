@@ -72,8 +72,8 @@ function draw(){
                     ball.draw(myCanvasBottom);
                     ball.hitWall(myCanvasBottom, myCanvasTop, animate);
                     ball.hitPaddle(paddle, animate);
-                    ball.hitBrick(collectionBricks);
-                    collectionBricks.draw(myCanvasBottom);
+                    //ball.hitBrick(collectionBricks);
+                    //collectionBricks.draw(myCanvasBottom);
                     ball.outField(paddle, game);
                 break;
                 case 'game_over': 

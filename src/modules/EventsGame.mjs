@@ -13,7 +13,6 @@ class EventsGame extends Events {
         
     }
     keydown(e){
-        console.log('!');
         switch(this.btn){
             case "ArrowUp":
                 if(!this.ball.start){

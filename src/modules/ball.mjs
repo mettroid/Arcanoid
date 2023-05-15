@@ -56,9 +56,9 @@ class Ball {
             if(this.squeezeVertical) return;
             if(this.squeezeHorizontal){
                 this.dy = -this.dy;
-                console.log(this.dy);
+                return;
             } else {
-                let ms = 50 / Math.abs(this.dx);
+                let ms = 50 / Math.abs(this.dy);
                 animate.addObj({
                     subObj: this,
                     changes: [
@@ -101,7 +101,7 @@ class Ball {
                         this.x - this.rX > paddle.x && this.x - this.rX < paddle.x + paddle.w){
                             this.dx = -this.dx;               
              }
- 
+
         }
     }
     hitBrick(collectionBricks){
