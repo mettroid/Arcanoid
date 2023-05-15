@@ -50,6 +50,7 @@ function draw(){
         let miss_frame = false;
         if(FPS !== 30) FPS = 60;
         let start = performance.now();
+        let fpsCount = 0;
         requestAnimationFrame(function frame_loop(time){
             if(FPS === 30) miss_frame = !miss_frame;
             if(miss_frame) requestAnimationFrame(frame_loop);
@@ -80,7 +81,13 @@ function draw(){
                     return;
                 break;
             }
-            if(time - start > 50000) return;
+            if(time - start > 60000) return;
+            if(time - start >= 1000){
+                console.log(fpsCount);
+                fpsCount = 0;
+                start = time;
+            }
+            fpsCount++;
             requestAnimationFrame(frame_loop);
         });
     });
