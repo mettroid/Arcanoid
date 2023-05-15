@@ -15,20 +15,19 @@ class Ball {
         this.degEnd = degEnd;
         this.color = color;
     }
-    draw(canvas){
-        canvas.ctx.beginPath();
-        canvas.ctx.fillStyle = this.color;
-        canvas.ctx.ellipse(this.x, this.y, this.rX, this.rY, this.rotate, this.degStart, this.degEnd);
-        canvas.ctx.fill();
-        canvas.ctx.stroke();
-        canvas.ctx.closePath();
+    draw(canvasBottom){
+        canvasBottom.ctx.beginPath();
+        canvasBottom.ctx.fillStyle = this.color;
+        canvasBottom.ctx.ellipse(this.x, this.y, this.rX, this.rY, this.rotate, this.degStart, this.degEnd);
+        canvasBottom.ctx.fill();
+        canvasBottom.ctx.stroke();
+        canvasBottom.ctx.closePath();
         
         this.x += this.dx;
         this.y += this.dy;
     }
-    hitWall(canvas, animate){
-        if(this.bool) return;
-        if(this.x + this.rX > canvas.elem.width || this.x - this.rX < 0){
+    hitWall(canvasBottom, canvasTop, animate){
+        if(this.x + this.rX > canvasBottom.elem.width || this.x - this.rX < 0){
             if(this.squeezeHorizontal) return;
             if(this.squeezeVertical){ 
                 this.dx = -this.dx;
@@ -53,7 +52,7 @@ class Ball {
             };
             this.squeezeHorizontal = true;
         }
-        if(this.y - this.rY < 0){
+        if(this.y - this.rY < canvasTop.elem.height){
             if(this.squeezeVertical) return;
             if(this.squeezeHorizontal){
                 this.dy = -this.dy;

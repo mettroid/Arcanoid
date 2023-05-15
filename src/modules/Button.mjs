@@ -12,7 +12,7 @@ class Button {
         this.ctx = canvas.ctx;
     }
     draw(){
-        let x = Math.floor(this.canvas.width / 2);
+        let x = Math.floor(this.canvas.elem.width / 2);
 
         this.ctx.strokeRect = 'black';
         this.ctx.lineWidth = 2;

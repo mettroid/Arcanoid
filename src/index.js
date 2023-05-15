@@ -14,8 +14,10 @@ import {Ball} from './modules/ball.mjs';
 import { CollectionBricks } from './modules/CollectionBricks.mjs';
 import { Brick } from './modules/brick.mjs';
 
-let myCanvas = new Canvas('myCanvas', document.getElementById('field'), 600, 600);
-myCanvas.create();
+let myCanvasTop = new Canvas('myCanvasBottom', document.getElementById('field'));
+let myCanvasBottom = new Canvas('myCanvasBottom', document.getElementById('field'));
+myCanvasTop.create(1, .1, true, 2);
+myCanvasBottom.create(1, 1, false, 1);
 
 let phase = 'sceen_saver';
 let FPS = 60;
@@ -26,13 +28,12 @@ let pictureColl;
 let btnEasy, btnNormal, btnDifficult;
 let title;
 let animate = new Animate(); // объект анимации
-let collectionBricks = new CollectionBricks();
-console.log(animate);
-let currObj = null; // текущий объект кнопка
+let collectionBricks = new CollectionBricks(myCanvasTop.elem.height + 50);
 
 window.onload = function(){
-    if(myCanvas.ctx){
-        init();
+    if(myCanvasBottom.ctx &&
+       myCanvasTop.ctx){
+            init();
     }
 }
 function mouseMoveHandler(e){
@@ -53,7 +54,7 @@ function draw(){
             if(FPS === 30) miss_frame = !miss_frame;
             if(miss_frame) requestAnimationFrame(frame_loop);
 
-            myCanvas.ctx.clearRect(0,0,myCanvas.elem.width,myCanvas.elem.height);
+            myCanvasBottom.ctx.clearRect(0,0,myCanvasBottom.elem.width,myCanvasBottom.elem.height);
     
             call_before_draw_frames();
             switch(game.phase){
@@ -64,12 +65,14 @@ function draw(){
                 case 'game':
                     //alert('В игре');
                     //return;
-                    paddle.draw(myCanvas);
-                    ball.draw(myCanvas);
-                    ball.hitWall(myCanvas, animate);
+                    game.drawTopMenu();
+
+                    paddle.draw(myCanvasBottom);
+                    ball.draw(myCanvasBottom);
+                    ball.hitWall(myCanvasBottom, myCanvasTop, animate);
                     ball.hitPaddle(paddle, animate);
                     ball.hitBrick(collectionBricks);
-                    collectionBricks.draw(myCanvas);
+                    collectionBricks.draw(myCanvasBottom);
                     ball.outField(paddle, game);
                 break;
                 case 'game_over': 
@@ -88,23 +91,23 @@ async function init(){
         let images = await import('./modules/images.mjs'); //sprite1 sprite2 ..
             pictureColl = await Promise.all(Wrap.promise(images));
             
-            game = new Game(myCanvas, pictureColl, FPS, phase);
-            title = new Title('purple', 'ARCANOID', myCanvas);
-            btnEasy = new Button(225, 500, 250, 50, [10,10,10,10], '#F5D209', 'easy', myCanvas);
-            btnNormal = new Button(225, 570, 250, 50, [10,10,10,10], '#F56E09', 'normal', myCanvas);
-            btnDifficult = new Button(225, 640, 250, 50, [10,10,10,10], '#F50927', 'difficult', myCanvas);
-            eventsMenu = new EventsMenu(btnEasy, btnNormal, btnDifficult, myCanvas, game, animate);
+            game = new Game(myCanvasBottom, myCanvasTop, pictureColl, FPS, phase);
+            title = new Title('purple', 'ARCANOID', myCanvasBottom);
+            btnEasy = new Button(225, 500, 250, 50, [10,10,10,10], '#F5D209', 'easy', myCanvasBottom);
+            btnNormal = new Button(225, 570, 250, 50, [10,10,10,10], '#F56E09', 'normal', myCanvasBottom);
+            btnDifficult = new Button(225, 640, 250, 50, [10,10,10,10], '#F50927', 'difficult', myCanvasBottom);
+            eventsMenu = new EventsMenu(btnEasy, btnNormal, btnDifficult, myCanvasBottom, myCanvasTop, game, animate);
             
             await draw();
-            myCanvas.elem.addEventListener('mousemove', eventsMenu);
-            myCanvas.elem.addEventListener('click', eventsMenu);
-            myCanvas.elem.addEventListener('mousedown', eventsMenu);
-            myCanvas.elem.addEventListener('mouseup', eventsMenu);
+            myCanvasBottom.elem.addEventListener('mousemove', eventsMenu);
+            myCanvasBottom.elem.addEventListener('click', eventsMenu);
+            myCanvasBottom.elem.addEventListener('mousedown', eventsMenu);
+            myCanvasBottom.elem.addEventListener('mouseup', eventsMenu);
 
-            paddle = new Paddle(310, 750, 80, 20, 10, 'blue', myCanvas.elem.width);
+            paddle = new Paddle(310, 750, 80, 20, 10, 'blue', myCanvasBottom.elem.width);
             ball = new Ball(350, 740, 10, 10, 0, 0, Math.PI*2, "red");
             collectionBricks.fill(Brick);
-            eventsGame = new EventsGame(ball, paddle, myCanvas, game, animate);
+            eventsGame = new EventsGame(ball, paddle, myCanvasBottom, myCanvasTop, game, animate);
             document.addEventListener('keydown', eventsGame);
             document.addEventListener('keyup', eventsGame);
         

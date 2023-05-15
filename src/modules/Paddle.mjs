@@ -24,16 +24,13 @@ class Paddle {
         canvas.ctx.arcTo(this.x + this.w, this.y + this.h, this.x + this.w - this.r, this.y + this.h, this.r);
         canvas.ctx.arcTo(this.x, this.y + this.h, this.x, this.y + this.r, this.r);
         canvas.ctx.arcTo(this.x, this.y, this.x + this.r, this.y, this.r);
-        
-        //canvas.ctx.arcTo(this.x - this.r*2, this.y, this.x, this.y, this.y);
-        //canvas.ctx.lineTo(this.x + this.w, this.y + this.h);
-        //canvas.ctx.lineTo(this.x, this.y + this.h);
+
         canvas.ctx.closePath();
         canvas.ctx.fill();
         canvas.ctx.stroke();
     }
     changeDirection(canvas){
-        if(this.pressedRight && this.x + this.w < canvas.width){
+        if(this.pressedRight && this.x + this.w < canvas.elem.width){
             this.x += 2;
         }
         if(this.pressedLeft && this.x > 0){

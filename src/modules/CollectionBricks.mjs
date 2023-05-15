@@ -4,11 +4,12 @@ class CollectionBricks {
     #marginL = 40;
     #marginT = 40;
     #offsetL = 50;
-    #offsetT = 20;
+    #offsetT;
     #collection;
     brickRowCount = 3;
     brickColumnCount = 4;
-    constructor(){ 
+    constructor(offsetT){
+        this.#offsetT = offsetT; 
         this.#collection = [];
     }
     fill(Brick){

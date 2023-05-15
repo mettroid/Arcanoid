@@ -5,8 +5,8 @@ import * as Mouse from './mouseCoords.mjs';
 class EventsMenu extends Events {
     currObj = null;
     startCoords = null;
-    constructor(btnEasy, btnNormal, btnDifficult, canvas, game, animate){
-        super(canvas, game, animate);
+    constructor(btnEasy, btnNormal, btnDifficult, canvasBottom, canvasTop, game, animate){
+        super(canvasBottom, canvasTop, game, animate);
         this.btnEasy = btnEasy;
         this.btnNormal = btnNormal;
         this.btnDifficult = btnDifficult;
@@ -16,14 +16,15 @@ class EventsMenu extends Events {
         if(this.game.phase !== 'sceen_saver') return;
         switch(e.type){
             case 'mousedown':
-                this.startCoords = Mouse.getCoords(e, this.canvas.elem);
+                this.startCoords = Mouse.getCoords(e, this.canvasBottom.elem);
             break;
             case 'mouseup':
                 if(this.currObj === null) return;
-                let currCoords = Mouse.getCoords(e, this.canvas.elem);
+                let currCoords = Mouse.getCoords(e, this.canvasBottom.elem);
                 if(this.checkMatch(this.startCoords, currCoords) === undefined) return;
 
                 this.game.phase = 'game';
+                this.canvasTop.elem.hidden = false;
                 switch(this.currObj.name){
                     case 'easy':
                         this.game.setLives(5);
@@ -37,8 +38,8 @@ class EventsMenu extends Events {
                 }
             break;
             case 'mousemove':
-                let coords = Mouse.getCoords(e, this.canvas.elem);
-                let button = IsPointInPath.check(this.canvas.ctx, coords, this.btnEasy, this.btnNormal, this.btnDifficult); // находится ли курсор над кнопкой меню
+                let coords = Mouse.getCoords(e, this.canvasBottom.elem);
+                let button = IsPointInPath.check(this.canvasBottom.ctx, coords, this.btnEasy, this.btnNormal, this.btnDifficult); // находится ли курсор над кнопкой меню
             
                 if(!button && this.currObj !== null){ 
                     this.currObj = null; 

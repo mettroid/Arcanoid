@@ -1,6 +1,7 @@
 class Events {
-    constructor(canvas, game, animate){
-        this.canvas = canvas;
+    constructor(canvasBottom, canvasTop, game, animate){
+        this.canvasBottom = canvasBottom;
+        this.canvasTop = canvasTop;
         this.game = game;
         this.animate = animate;
     }
