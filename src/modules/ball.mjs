@@ -81,19 +81,27 @@ class Ball {
         }
     }
     hitPaddle(paddle, animate){
-        if(this.y + this.rY > paddle.y && inRange(this.x, paddle.x, paddle.x + paddle.w)){
-            this.dy = -this.dy;
-            animate.addObj({
-                subObj: paddle,
-                changes: [
-                    [
-                        { prop: 'curveY', to: 760, ms: 100 }
-                    ],
-                    [
-                        { prop: 'curveY', to: 750, ms: 100 }
-                    ]
-                ]
-            });   
+        if(this.y + this.rY > paddle.y){
+
+            if(this.x > paddle.x &&
+               this.x < paddle.x + paddle.w){
+                     this.dy = -this.dy;
+                     animate.addObj({
+                         subObj: paddle,
+                         changes: [
+                             [
+                                 { prop: 'curveY', to: 760, ms: 100 }
+                             ],
+                             [
+                                 { prop: 'curveY', to: 750, ms: 100 }
+                             ]
+                         ]
+                     });  
+             } else if (this.x + this.rX < paddle.x + paddle.w && this.x + this.rX > paddle.x ||
+                        this.x - this.rX > paddle.x && this.x - this.rX < paddle.x + paddle.w){
+                            this.dx = -this.dx;               
+             }
+ 
         }
     }
     hitBrick(collectionBricks){
@@ -108,19 +116,19 @@ class Ball {
                 if(this.y - this.rY > brick.y && this.y - this.rY < brick.y + brick.h || //удар в кирпич во y
                    this.y + this.rY < brick.y + brick.h && this.y + this.rY > brick.y){
                     if(inRange(this.x, brick.x, brick.x + brick.w)){
-                        console.log('V');
+                        //console.log('V');
                         brick.visible = false;
                         this.dy = -this.dy;
-                        console.log(brick);
+                        //console.log(brick);
                     }
                 }
                 if(this.x + this.rX < brick.x + brick.w && this.x + this.rX > brick.x || //удар в кирпич по x
                    this.x - this.rX > brick.x && this.x - this.rX < brick.x + brick.w){
                     if(inRange(this.y, brick.y, brick.y + brick.h)){
-                        console.log('X');
+                        //console.log('X');
                         brick.visible = false;
                         this.dx = -this.dx;
-                        console.log(brick);
+                        //console.log(brick);
                     }
                 } 
             }

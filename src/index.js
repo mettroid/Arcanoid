@@ -66,7 +66,7 @@ function draw(){
                 case 'game':
                     //alert('В игре');
                     //return;
-                    game.drawTopMenu();
+                    //game.drawTopMenu();
 
                     paddle.draw(myCanvasBottom);
                     ball.draw(myCanvasBottom);

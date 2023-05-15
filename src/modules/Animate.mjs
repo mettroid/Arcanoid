@@ -33,7 +33,7 @@ class Animate {
 
             if(isPlainObject(step)){
                 basic[step.prop] = -basic[step.prop];
-                console.log(basic[step.prop]);
+                //console.log(basic[step.prop]);
                 return switch_curr();
             }
 
