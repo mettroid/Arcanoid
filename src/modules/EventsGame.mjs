@@ -1,8 +1,8 @@
 import {Events} from './Events.mjs';
 class EventsGame extends Events {
     btn;
-    constructor(ball, paddle, canvasBottom, canvasTop, game, animate){
-        super(canvasBottom, canvasTop, game, animate);
+    constructor(ball, paddle, canvasBottom, game, animate){
+        super(canvasBottom, game, animate);
         this.paddle = paddle;
         this.ball = ball;
     }
@@ -17,8 +17,8 @@ class EventsGame extends Events {
             case "ArrowUp":
                 if(!this.ball.start){
                     this.ball.start = true;
-                    this.ball.dx = 2;
-                    this.ball.dy = 2.5;
+                    this.ball.dx = 4;
+                    this.ball.dy = 5;
                 }
 
             break;

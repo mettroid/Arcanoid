@@ -16,6 +16,7 @@ class Paddle {
     draw(canvas){
         this.curveX = Math.floor(this.x + this.r + (this.w / 2));
         this.changeDirection(canvas);
+        canvas.ctx.save();
         canvas.ctx.beginPath();
         canvas.ctx.fillStyle = this.color;
         canvas.ctx.moveTo(this.x + this.r, this.y);
@@ -24,10 +25,11 @@ class Paddle {
         canvas.ctx.arcTo(this.x + this.w, this.y + this.h, this.x + this.w - this.r, this.y + this.h, this.r);
         canvas.ctx.arcTo(this.x, this.y + this.h, this.x, this.y + this.r, this.r);
         canvas.ctx.arcTo(this.x, this.y, this.x + this.r, this.y, this.r);
-
         canvas.ctx.closePath();
+        
         canvas.ctx.fill();
         canvas.ctx.stroke();
+        canvas.ctx.restore();
     }
     changeDirection(canvas){
         if(this.pressedRight && this.x + this.w < canvas.elem.width){

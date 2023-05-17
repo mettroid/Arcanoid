@@ -5,8 +5,8 @@ import * as Mouse from './mouseCoords.mjs';
 class EventsMenu extends Events {
     currObj = null;
     startCoords = null;
-    constructor(btnEasy, btnNormal, btnDifficult, canvasBottom, canvasTop, game, animate){
-        super(canvasBottom, canvasTop, game, animate);
+    constructor(btnEasy, btnNormal, btnDifficult, canvasBasic, game, animate){
+        super(canvasBasic, game, animate);
         this.btnEasy = btnEasy;
         this.btnNormal = btnNormal;
         this.btnDifficult = btnDifficult;
@@ -16,15 +16,14 @@ class EventsMenu extends Events {
         if(this.game.phase !== 'sceen_saver') return;
         switch(e.type){
             case 'mousedown':
-                this.startCoords = Mouse.getCoords(e, this.canvasBottom.elem);
+                this.startCoords = Mouse.getCoords(e, this.canvasBasic.elem);
             break;
             case 'mouseup':
                 if(this.currObj === null) return;
-                let currCoords = Mouse.getCoords(e, this.canvasBottom.elem);
+                let currCoords = Mouse.getCoords(e, this.canvasBasic.elem);
                 if(this.checkMatch(this.startCoords, currCoords) === undefined) return;
 
                 this.game.phase = 'game';
-                this.canvasTop.elem.hidden = false;
                 switch(this.currObj.name){
                     case 'easy':
                         this.game.setLives(5);
@@ -38,8 +37,8 @@ class EventsMenu extends Events {
                 }
             break;
             case 'mousemove':
-                let coords = Mouse.getCoords(e, this.canvasBottom.elem);
-                let button = IsPointInPath.check(this.canvasBottom.ctx, coords, this.btnEasy, this.btnNormal, this.btnDifficult); // находится ли курсор над кнопкой меню
+                let coords = Mouse.getCoords(e, this.canvasBasic.elem);
+                let button = IsPointInPath.check(this.canvasBasic.ctx, coords, this.btnEasy, this.btnNormal, this.btnDifficult); // находится ли курсор над кнопкой меню
             
                 if(!button && this.currObj !== null){ 
                     this.currObj = null; 
@@ -51,19 +50,19 @@ class EventsMenu extends Events {
                         subObj: button,
                         changes: [
                                     [
-                                        { prop: 'w', to: 260, ms: 500 },
-                                        { prop: 'h', to: 60, ms: 500 },
-                                        { prop: 'x', to: 220, ms: 500 },
-                                        { prop: 'y', to: nameBtn === 'easy'? 495 : nameBtn === 'normal'? 565 :  nameBtn === 'difficult'? 635 : 0, ms: 500 }
+                                        { prop: 'w', to: 260, ms: 100 },
+                                        { prop: 'h', to: 60, ms: 100 },
+                                        { prop: 'x', to: 220, ms: 100 },
+                                        { prop: 'y', to: nameBtn === 'easy'? 495 : nameBtn === 'normal'? 565 :  nameBtn === 'difficult'? 635 : 0, ms: 100 }
                                     ],
                                     [ 
                                         { sleep: 100 },
                                     ],
                                     [
-                                        { prop: 'w', to: 250, ms: 500 },
-                                        { prop: 'h', to: 50, ms: 500 },
-                                        { prop: 'x', to: 225, ms: 500 },
-                                        { prop: 'y', to: nameBtn ===  'easy'? 500 : nameBtn ===  'normal'? 570 : nameBtn ===  'difficult'? 640 : 0, ms: 500 }
+                                        { prop: 'w', to: 250, ms: 100 },
+                                        { prop: 'h', to: 50, ms: 100 },
+                                        { prop: 'x', to: 225, ms: 100 },
+                                        { prop: 'y', to: nameBtn ===  'easy'? 500 : nameBtn ===  'normal'? 570 : nameBtn ===  'difficult'? 640 : 0, ms: 100 }
                                     ]
                         ]
                 });

@@ -1,6 +1,8 @@
 import {has, isPlainObject} from 'lodash';
 class Animate {
-    constructor(){
+    FPS;
+    constructor(FPS){
+        this.FPS = FPS;
         this.list = {};
     }
     addObj(obj){
@@ -11,6 +13,12 @@ class Animate {
     }
     hasObj(obj){
         return has(this.getList(), obj.name); // есть ли у объекта такой ключ
+    }
+    updateFps(FPS){
+        this.FPS = FPS;
+    }
+    getFps(){
+        return this.FPS;
     }
     getClosureFn(obj){
           let self = this;
@@ -30,14 +38,11 @@ class Animate {
                 sleepping = true;
                 return;
             }
-
             if(isPlainObject(step)){
                 basic[step.prop] = -basic[step.prop];
-                //console.log(basic[step.prop]);
                 return switch_curr();
-            }
+            } 
 
-            let end_reacher = null;
             for(let objSettings of step){
                 if(objSettings.switchOff) continue; 
                 let newValue = basic[objSettings.prop] + objSettings.step;
@@ -48,11 +53,8 @@ class Animate {
                 basic[objSettings.prop] = newValue;
             }
             if(step.every((objSettings, ind, arr)=>objSettings.switchOff)){
-                end_reacher = true;
-            };
-            if(end_reacher){
                 return switch_curr();
-            }
+            };
 
           }
           function switch_curr(){
@@ -71,7 +73,7 @@ class Animate {
                 let from = basic[objSettings.prop];
             
                 let diff = objSettings.to - from;
-                objSettings.step = diff / (60 * objSettings.ms  / 1000);
+                objSettings.step = diff / (self.FPS * objSettings.ms  / 1000);
                 objSettings.switchOff = false;
             }
             return curr;
