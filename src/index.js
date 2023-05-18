@@ -18,7 +18,7 @@ let canvasBasic = new Canvas('canvasBasic', document.getElementById('field'));
 canvasBasic.create(1, 1, false, 1);
 
 let phase = 'sceen_saver';
-let FPS = 0;
+let FPS = 60;
 let game;
 let eventsMenu, eventsGame; //объект обработчик событий мыши
 let ball, paddle;
@@ -43,16 +43,10 @@ function call_before_draw_frames(){
 function draw(){
     return new Promise(function(resolve, reject){
         let start = performance.now();
-        let FPS = 0;
         let prev = 0;
-
-        let myGame = {};
-        myGame.lastTick = performance.now();
-        myGame.lastRender = myGame.lastTick;
-        myGame.tickLength = 50;
-        
-        function frame_loop(time){;
-            myGame.animStop = requestAnimationFrame(frame_loop);
+        let myGame;
+        function frame_loop(time){
+            myGame = requestAnimationFrame(frame_loop);
             call_before_draw_frames();
                 canvasBasic.ctx.clearRect(0,0,canvasBasic.elem.width,canvasBasic.elem.height);
 
@@ -77,9 +71,7 @@ function draw(){
                         game.game_over();
                         return;
                     break;
-                }
-                
-                
+                }      
 
                 if(time - start >= 1000){
                     console.log(FPS);
@@ -88,8 +80,6 @@ function draw(){
                     start = time;
                 }
                 FPS++;
-
-                myGame.lastRender = time;
         };
         frame_loop(performance.now());
     });

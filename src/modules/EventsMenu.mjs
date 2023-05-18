@@ -56,7 +56,7 @@ class EventsMenu extends Events {
                                         { prop: 'y', to: nameBtn === 'easy'? 495 : nameBtn === 'normal'? 565 :  nameBtn === 'difficult'? 635 : 0, ms: 100 }
                                     ],
                                     [ 
-                                        { sleep: 100 },
+                                        { sleep: 1500 },
                                     ],
                                     [
                                         { prop: 'w', to: 250, ms: 100 },
