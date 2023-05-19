@@ -36,27 +36,29 @@ class Ball {
         }
     }
     hitPaddle(paddle, animate){
-        if(this.y + this.rY > paddle.y){
+        if(this.y + this.rY + this.dy > paddle.y && this.x >= paddle.x && this.x <= paddle.x + paddle.w){
 
-            if(this.x > paddle.x &&
-               this.x < paddle.x + paddle.w){
-                     this.dy = -this.dy;
-                     animate.addObj({
-                         subObj: paddle,
-                         changes: [
-                             [
-                                 { prop: 'curveY', to: 760, ms: 100 }
-                             ],
-                             [
-                                 { prop: 'curveY', to: 750, ms: 100 }
-                             ]
-                         ]
-                     });  
-             } else if (this.x + this.rX < paddle.x + paddle.w && this.x + this.rX > paddle.x ||
-                        this.x - this.rX > paddle.x && this.x - this.rX < paddle.x + paddle.w){
-                            this.dx = -this.dx;               
-             }
+          
+             this.dy = -this.dy;
+             animate.addObj({
+                 subObj: paddle,
+                 changes: [
+                     [
+                         { prop: 'curveY', to: 760, ms: 100 }
+                     ],
+                     [
+                         { prop: 'curveY', to: 750, ms: 100 }
+                     ]
+                 ]
+             });  
+             
+  
 
+        }    
+        if(this.y + this.rY + this.dy > paddle.y &&
+           (this.x + this.rX + this.dx < paddle.x + paddle.w && this.x + this.rX + this.dx >= paddle.x ||
+            this.x - this.rX + this.dx > paddle.x && this.x - this.rX + this.dx <= paddle.x + paddle.w)){
+                    this.dx = -this.dx;              
         }
     }
     hitBrick(collectionBricks){

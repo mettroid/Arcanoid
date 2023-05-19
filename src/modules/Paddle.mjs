@@ -33,10 +33,10 @@ class Paddle {
     }
     changeDirection(canvas){
         if(this.pressedRight && this.x + this.w < canvas.elem.width){
-            this.x += 3;
+            this.x += 2;
         }
         if(this.pressedLeft && this.x > 0){
-            this.x -= 3;
+            this.x -= 2;
         }
     }
 }
