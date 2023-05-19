@@ -57,14 +57,16 @@ function draw(){
                         resolve();
                     break;
                     case 'game':
-                        game.drawTopMenu();
-
-                        paddle.draw(canvasBasic);
-                        ball.draw(canvasBasic);
+                       
+                        
                         ball.hitWall(canvasBasic, animate);
                         ball.hitPaddle(paddle, animate);
-                        //ball.hitBrick(collectionBricks);
-                        //collectionBricks.draw(canvasBasic);
+                        ball.hitBrick(collectionBricks);
+                        
+                        game.drawTopMenu();
+                        ball.draw(canvasBasic);
+                        paddle.draw(canvasBasic);
+                        collectionBricks.draw(canvasBasic);
                         ball.outField(paddle, game);
                     break;
                     case 'game_over': 

@@ -17,8 +17,8 @@ class EventsGame extends Events {
             case "ArrowUp":
                 if(!this.ball.start){
                     this.ball.start = true;
-                    this.ball.dx = 4;
-                    this.ball.dy = 5;
+                    this.ball.dx = 1;
+                    this.ball.dy = 1;
                 }
 
             break;

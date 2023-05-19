@@ -1,12 +1,14 @@
 class Brick {
-    constructor(x, y, w, h, visible, lives, color){
+    constructor(x, y, w, h, {lives, scores, thing, color}){
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
-        this.visible = visible;
         this.lives = lives;
+        this.scores = scores;
+        this.thing = thing;
         this.color = color;
+        console.log(this.color);
     }
     draw(canvas){
         canvas.ctx.beginPath();

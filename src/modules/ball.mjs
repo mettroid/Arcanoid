@@ -17,8 +17,7 @@ class Ball {
         canvasBasic.ctx.save();
         canvasBasic.ctx.beginPath();
         canvasBasic.ctx.fillStyle = this.color;
-        //canvasBasic.ctx.ellipse(this.x, this.y, this.rX, this.rY, this.rotate, this.degStart, this.degEnd);
-        canvasBasic.ctx.arc(this.x, this.y, this.rX, 0, Math.PI * 2);
+        canvasBasic.ctx.ellipse(this.x, this.y, this.rX, this.rY, this.rotate, this.degStart, this.degEnd);
         canvasBasic.ctx.fill();
         canvasBasic.ctx.stroke();
         canvasBasic.ctx.closePath();
@@ -63,28 +62,29 @@ class Ball {
     hitBrick(collectionBricks){
         
         let bricks = collectionBricks.getColl();
+        let brick;
         for(let i = 0; i < collectionBricks.brickColumnCount; i++){
             
             for(let j = 0; j < collectionBricks.brickRowCount; j++){
                 
-                let brick = bricks[i][j];
-                if(!brick.visible) continue;
-                if(this.y - this.rY > brick.y && this.y - this.rY < brick.y + brick.h || //удар в кирпич во y
-                   this.y + this.rY < brick.y + brick.h && this.y + this.rY > brick.y){
-                    if(inRange(this.x, brick.x, brick.x + brick.w)){
+                brick = bricks[i][j];
+                if(brick.lives === 0) continue;
+                if(this.y - this.rY > brick.y && this.y - this.rY <= brick.y + brick.h || //удар в кирпич во y
+                   this.y + this.rY < brick.y + brick.h && this.y + this.rY >= brick.y){
+                    if(this.x >= brick.x && this.x <= brick.x + brick.w){
                         //console.log('V');
-                        brick.visible = false;
+                        brick.lives -= 1;
                         this.dy = -this.dy;
-                        //console.log(brick);
+                        console.log(brick.color);
                     }
                 }
-                if(this.x + this.rX < brick.x + brick.w && this.x + this.rX > brick.x || //удар в кирпич по x
-                   this.x - this.rX > brick.x && this.x - this.rX < brick.x + brick.w){
-                    if(inRange(this.y, brick.y, brick.y + brick.h)){
+                if(this.x + this.rX < brick.x + brick.w && this.x + this.rX >= brick.x || //удар в кирпич по x
+                   this.x - this.rX > brick.x && this.x - this.rX <= brick.x + brick.w){
+                    if(this.y >= brick.y && this.y <= brick.y + brick.h){
                         //console.log('X');
-                        brick.visible = false;
+                        brick.lives -= 1;
                         this.dx = -this.dx;
-                        //console.log(brick);
+                        console.log(brick.color);
                     }
                 } 
             }

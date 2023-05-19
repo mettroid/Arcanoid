@@ -3,31 +3,38 @@ class CollectionBricks {
     #h = 30;
     #marginL = 40;
     #marginT = 40;
-    #offsetL = 50;
-    #offsetT = 60;
+    #offsetL = 100;
+    #offsetT = 130;
     #collection;
     brickRowCount = 3;
     brickColumnCount = 4;
+    properties = [
+        { lives: 3, scores: 30, thing: "apple", color: "red" },
+        { lives: 2, scores: 20, thing: "orange", color: "green" },
+        { lives: 1, scores: 10, thing: "lemon", color: "yellow" }
+    ];
     constructor(){
         this.#collection = [];
     }
     fill(Brick){
+        let x, y, brick;
          for(let i = 0; i < this.brickColumnCount; i++){
             this.#collection[i] = [];
             for(let j = 0; j < this.brickRowCount; j++){
-                let x = Math.floor(this.#offsetL + (this.#marginL * i + this.#w * i));
-                let y = Math.floor(this.#offsetT + (this.#marginT * j + this.#h * j));
-                let brick = new Brick(x, y, this.#w, this.#h, true, 2, 'purple');
+                x = Math.floor(this.#offsetL + (this.#marginL * i + this.#w * i));
+                y = Math.floor(this.#offsetT + (this.#marginT * j + this.#h * j));
+                brick = new Brick(x, y, this.#w, this.#h, this.properties[j]);
                 this.#collection[i].push(brick);
             }
          }   
          console.log(this.#collection);
     }
     draw(canvas){
+        let brick;
         for(let i = 0; i <  this.brickColumnCount; i++){
             for(let j = 0; j < this.brickRowCount; j++){
-               let brick = this.#collection[i][j];
-               if(brick.visible && brick.lives > 0){
+               brick = this.#collection[i][j];
+               if(brick.lives > 0){
                   brick.draw(canvas);
                }
             }
