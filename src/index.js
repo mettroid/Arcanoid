@@ -44,9 +44,13 @@ function draw(){
     return new Promise(function(resolve, reject){
         let start = performance.now();
         let prev = 0;
+        let deltaTime = 0;
+        let lastUpdate = performance.now();
         let myGame;
-        function frame_loop(time){
+        function frame_loop(currentTime){
             myGame = requestAnimationFrame(frame_loop);
+            deltaTime = (currentTime - lastUpdate) / 1000;
+            console.log(deltaTime);
             call_before_draw_frames();
                 canvasBasic.ctx.clearRect(0,0,canvasBasic.elem.width,canvasBasic.elem.height);
 
@@ -60,12 +64,12 @@ function draw(){
                        
                         
                         ball.hitWall(canvasBasic, animate);
-                        ball.hitPaddle(paddle, animate);
+                        ball.hitPaddle(paddle, animate, deltaTime);
                         ball.hitBrick(collectionBricks);
                         
                         game.drawTopMenu();
-                        ball.draw(canvasBasic);
-                        paddle.draw(canvasBasic);
+                        ball.draw(canvasBasic, deltaTime);
+                        paddle.draw(canvasBasic, deltaTime);
                         collectionBricks.draw(canvasBasic);
                         ball.outField(paddle, game);
                     break;
@@ -75,15 +79,16 @@ function draw(){
                     break;
                 }      
 
-                if(time - start >= 1000){
+                if(currentTime - start >= 1000){
                     console.log(FPS);
                     animate.updateFps(FPS);
                     FPS = 0;
-                    start = time;
+                    start = currentTime;
                 }
                 FPS++;
+                lastUpdate = currentTime;
         };
-        frame_loop(performance.now());
+        requestAnimationFrame(frame_loop);
     });
 
 }

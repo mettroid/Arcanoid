@@ -4,6 +4,7 @@ class Paddle {
     curveX;
     curveY;
     name = 'paddle';
+    vx = 200;
     constructor(x, y, w, h, r, color){
         this.x = x;
         this.y = y;
@@ -13,9 +14,9 @@ class Paddle {
         this.curveY = y;
         this.color = color;
     }
-    draw(canvas){
+    draw(canvas, correction){
         this.curveX = Math.floor(this.x + this.r + (this.w / 2));
-        this.changeDirection(canvas);
+        this.changeDirection(canvas, correction);
         canvas.ctx.save();
         canvas.ctx.beginPath();
         canvas.ctx.fillStyle = this.color;
@@ -31,12 +32,12 @@ class Paddle {
         canvas.ctx.stroke();
         canvas.ctx.restore();
     }
-    changeDirection(canvas){
+    changeDirection(canvas, correction){
         if(this.pressedRight && this.x + this.w < canvas.elem.width){
-            this.x += 2;
+            this.x += this.vx * correction;
         }
         if(this.pressedLeft && this.x > 0){
-            this.x -= 2;
+            this.x -= this.vx * correction;
         }
     }
 }

@@ -13,7 +13,10 @@ class Ball {
         this.degEnd = degEnd;
         this.color = color;
     }
-    draw(canvasBasic){
+    draw(canvasBasic, correction){        
+        this.x += this.dx * correction;
+        this.y += this.dy * correction;
+
         canvasBasic.ctx.save();
         canvasBasic.ctx.beginPath();
         canvasBasic.ctx.fillStyle = this.color;
@@ -23,8 +26,7 @@ class Ball {
         canvasBasic.ctx.closePath();
         canvasBasic.ctx.restore();
 
-        this.x += this.dx;
-        this.y += this.dy;
+
     }
     hitWall(canvasBasic, animate){
         
@@ -35,27 +37,22 @@ class Ball {
             this.dy = -this.dy;
         }
     }
-    hitPaddle(paddle, animate){
-        if(this.y + this.rY + this.dy > paddle.y && this.x >= paddle.x && this.x <= paddle.x + paddle.w){
-
-          
-             this.dy = -this.dy;
-             animate.addObj({
-                 subObj: paddle,
-                 changes: [
-                     [
-                         { prop: 'curveY', to: 760, ms: 100 }
-                     ],
-                     [
-                         { prop: 'curveY', to: 750, ms: 100 }
-                     ]
-                 ]
-             });  
-             
-  
-
+    hitPaddle(paddle, animate, correction){
+        if(this.y + this.rY + this.dy * correction > paddle.y && this.x >= paddle.x && this.x <= paddle.x + paddle.w){
+            this.dy = -this.dy;
+            animate.addObj({
+                subObj: paddle,
+                changes: [
+                    [
+                        { prop: 'curveY', to: 760, ms: 100 }
+                    ],
+                    [
+                        { prop: 'curveY', to: 750, ms: 100 }
+                    ]
+                ]
+            });  
         }    
-        if(this.y + this.rY + this.dy > paddle.y &&
+        if(this.y + this.rY + this.dy * correction > paddle.y &&
            (this.x + this.rX + this.dx < paddle.x + paddle.w && this.x + this.rX + this.dx >= paddle.x ||
             this.x - this.rX + this.dx > paddle.x && this.x - this.rX + this.dx <= paddle.x + paddle.w)){
                     this.dx = -this.dx;              
