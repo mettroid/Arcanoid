@@ -1,8 +1,7 @@
 class Game {
     lives;
     scores = 0;
-    constructor(canvasBasic, images, fps, phase){
-        this.fps = fps;
+    constructor(canvasBasic, images, phase){
         this.canvasBasic = canvasBasic;
         this.score = 0;
         this.collections = images;

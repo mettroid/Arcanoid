@@ -1,8 +1,7 @@
 import {has, isPlainObject} from 'lodash';
 class Animate {
-    FPS;
-    constructor(FPS){
-        this.FPS = FPS;
+    correction;
+    constructor(){
         this.list = {};
     }
     addObj(obj){
@@ -14,23 +13,23 @@ class Animate {
     hasObj(obj){
         return has(this.getList(), obj.name); // есть ли у объекта такой ключ
     }
-    updateFps(FPS){
-        this.FPS = FPS;
+    updateCorrection(correction){
+        this.correction = correction;
     }
     getFps(){
-        return this.FPS;
+        //return this.FPS;
     }
     getClosureFn(obj){
           let self = this;
           let index = 0;
           let basic = obj.subObj;           //оригинальный изменяемый объект
           let curr = obj.changes[index];    //перебираемый массив анимации
-          let step = getStep(basic, curr);
+          let currNorm = setDiff(basic, curr);
           let sleepping = false;
         
           return function animate(){
             if(sleepping) return;
-            if(!step){
+            if(!currNorm){
                 setTimeout(()=>{
                     sleepping = false;
                     return switch_curr();
@@ -39,16 +38,16 @@ class Animate {
                 return;
             }
 
-            for(let objSettings of step){
+            for(let objSettings of currNorm){
                 if(objSettings.switchOff) continue; 
-                let newValue = basic[objSettings.prop] + objSettings.step;
-                if(objSettings.step > 0 && newValue > objSettings.to || objSettings.step < 0 && newValue < objSettings.to){
+                let newValue = basic[objSettings.prop] + objSettings.diff * (self.correction / objSettings.ms);
+                if(objSettings.diff > 0 && newValue > objSettings.to || objSettings.diff < 0 && newValue < objSettings.to){
                     newValue = objSettings.to;
                     objSettings.switchOff = true;
                 }
                 basic[objSettings.prop] = newValue;
             }
-            if(step.every((objSettings, ind, arr)=>objSettings.switchOff)){
+            if(currNorm.every((objSettings, ind, arr)=>objSettings.switchOff)){
                 return switch_curr();
             };
 
@@ -60,15 +59,13 @@ class Animate {
                 delete self.list[obj.subObj.name];
                 return;
              }
-             step = (curr[0].sleep)? null : getStep(basic, curr); 
+             currNorm = (curr[0].sleep)? null : setDiff(basic, curr); 
           }
-          function getStep(basic, curr){
+          function setDiff(basic, curr){
+            let from;
             for(let objSettings of curr){
-                let from = basic[objSettings.prop];
-            
-                let diff = objSettings.to - from;
-                objSettings.step = diff / (self.FPS * objSettings.ms  / 1000);
-                objSettings.switchOff = false;
+                from = basic[objSettings.prop];
+                objSettings.diff = objSettings.to - from;
             }
             return curr;
         }

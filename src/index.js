@@ -18,14 +18,13 @@ let canvasBasic = new Canvas('canvasBasic', document.getElementById('field'));
 canvasBasic.create(1, 1, false, 1);
 
 let phase = 'sceen_saver';
-let FPS = 60;
 let game;
 let eventsMenu, eventsGame; //объект обработчик событий мыши
 let ball, paddle;
 let pictureColl;
 let btnEasy, btnNormal, btnDifficult;
 let title;
-let animate = new Animate(FPS); // объект анимации
+let animate = new Animate(); // объект анимации
 let collectionBricks = new CollectionBricks();
 
 
@@ -42,14 +41,15 @@ function call_before_draw_frames(){
 }
 function draw(){
     return new Promise(function(resolve, reject){
-        let start = performance.now();
-        let prev = 0;
         let deltaTime = 0;
         let lastUpdate = performance.now();
+        let correction = 0;
         let myGame;
         function frame_loop(currentTime){
             myGame = requestAnimationFrame(frame_loop);
-            deltaTime = (currentTime - lastUpdate) / 1000;
+            deltaTime = currentTime - lastUpdate;
+            correction = deltaTime / 1000;
+            animate.updateCorrection(deltaTime);
             console.log(deltaTime);
             call_before_draw_frames();
                 canvasBasic.ctx.clearRect(0,0,canvasBasic.elem.width,canvasBasic.elem.height);
@@ -64,12 +64,12 @@ function draw(){
                        
                         
                         ball.hitWall(canvasBasic, animate);
-                        ball.hitPaddle(paddle, animate, deltaTime);
+                        ball.hitPaddle(paddle, animate, correction);
                         ball.hitBrick(collectionBricks);
                         
                         game.drawTopMenu();
-                        ball.draw(canvasBasic, deltaTime);
-                        paddle.draw(canvasBasic, deltaTime);
+                        ball.draw(canvasBasic, correction);
+                        paddle.draw(canvasBasic, correction);
                         collectionBricks.draw(canvasBasic);
                         ball.outField(paddle, game);
                     break;
@@ -79,13 +79,7 @@ function draw(){
                     break;
                 }      
 
-                if(currentTime - start >= 1000){
-                    console.log(FPS);
-                    animate.updateFps(FPS);
-                    FPS = 0;
-                    start = currentTime;
-                }
-                FPS++;
+                
                 lastUpdate = currentTime;
         };
         requestAnimationFrame(frame_loop);
@@ -97,7 +91,7 @@ async function init(){
         let images = await import('./modules/images.mjs'); //sprite1 sprite2 ..
             pictureColl = await Promise.all(Wrap.promise(images));
             
-            game = new Game(canvasBasic, pictureColl, FPS, phase);
+            game = new Game(canvasBasic, pictureColl, phase);
             title = new Title('purple', 'ARCANOID', canvasBasic);
             btnEasy = new Button(225, 500, 250, 50, [10,10,10,10], '#F5D209', 'easy', canvasBasic);
             btnNormal = new Button(225, 570, 250, 50, [10,10,10,10], '#F56E09', 'normal', canvasBasic);
