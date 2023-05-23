@@ -62,7 +62,7 @@ class Ball {
                     this.dx = -this.dx;              
         }
     }
-    hitBrick(collectionBricks){
+    hitBrick(collectionBricks, game){
         
         let bricks = collectionBricks.getColl();
         let brick;
@@ -90,6 +90,9 @@ class Ball {
                         console.log(brick.color);
                     }
                 } 
+                if(brick.lives === 0){
+                    game.setScores(brick.scores);
+                }
             }
         }
     }

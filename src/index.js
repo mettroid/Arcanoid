@@ -65,7 +65,7 @@ function draw(){
                         
                         ball.hitWall(canvasBasic, animate);
                         ball.hitPaddle(paddle, animate, correction);
-                        ball.hitBrick(collectionBricks);
+                        ball.hitBrick(collectionBricks, game);
                         
                         game.drawTopMenu();
                         paddle.draw(canvasBasic, correction);
