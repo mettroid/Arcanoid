@@ -50,7 +50,7 @@ function draw(){
             deltaTime = currentTime - lastUpdate;
             correction = deltaTime / 1000;
             animate.updateCorrection(deltaTime);
-            console.log(deltaTime);
+            //console.log(deltaTime);
             call_before_draw_frames();
                 canvasBasic.ctx.clearRect(0,0,canvasBasic.elem.width,canvasBasic.elem.height);
 
@@ -68,8 +68,9 @@ function draw(){
                         ball.hitBrick(collectionBricks);
                         
                         game.drawTopMenu();
-                        ball.draw(canvasBasic, correction);
                         paddle.draw(canvasBasic, correction);
+                        ball.draw(canvasBasic, correction, game, paddle);
+                        
                         collectionBricks.draw(canvasBasic);
                         ball.outField(paddle, game);
                     break;

@@ -38,7 +38,7 @@ class Animate {
                 return;
             }
 
-            for(let objSettings of currNorm){
+            for(let objSettings of currNorm){console.log(objSettings.switchOff);
                 if(objSettings.switchOff) continue; 
                 let newValue = basic[objSettings.prop] + objSettings.diff * (self.correction / objSettings.ms);
                 if(objSettings.diff > 0 && newValue > objSettings.to || objSettings.diff < 0 && newValue < objSettings.to){
@@ -66,6 +66,7 @@ class Animate {
             for(let objSettings of curr){
                 from = basic[objSettings.prop];
                 objSettings.diff = objSettings.to - from;
+                objSettings.switchOff = false;
             }
             return curr;
         }

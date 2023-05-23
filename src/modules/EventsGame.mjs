@@ -15,18 +15,18 @@ class EventsGame extends Events {
     keydown(e){
         switch(this.btn){
             case "ArrowUp":
-                if(!this.ball.start){
-                    this.ball.start = true;
+                if(!this.game.start){
+                    this.game.start = true;
                     this.ball.dx = 100;
                     this.ball.dy = 300;
                 }
 
             break;
             case "ArrowLeft":
-                this.ball.start && (this.paddle.pressedLeft = true);
+                this.paddle.pressedLeft = true;
             break;
             case "ArrowRight":
-                this.ball.start && (this.paddle.pressedRight = true);
+                this.paddle.pressedRight = true;
             break;
         }
     }

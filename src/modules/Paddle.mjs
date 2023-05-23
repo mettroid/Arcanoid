@@ -15,8 +15,9 @@ class Paddle {
         this.color = color;
     }
     draw(canvas, correction){
-        this.curveX = Math.floor(this.x + this.r + (this.w / 2));
+        
         this.changeDirection(canvas, correction);
+        this.curveX = this.x + (this.w / 2);
         canvas.ctx.save();
         canvas.ctx.beginPath();
         canvas.ctx.fillStyle = this.color;
@@ -31,6 +32,13 @@ class Paddle {
         canvas.ctx.fill();
         canvas.ctx.stroke();
         canvas.ctx.restore();
+
+        canvas.ctx.beginPath();
+        canvas.ctx.strokeStyle = "lime";
+        canvas.ctx.moveTo(this.curveX, this.curveY);
+        canvas.ctx.lineTo(this.curveX, this.curveY + 30);
+        canvas.ctx.stroke();
+        canvas.ctx.closePath();
     }
     changeDirection(canvas, correction){
         if(this.pressedRight && this.x + this.w < canvas.elem.width){

@@ -2,7 +2,6 @@ import { inRange } from "lodash";
 class Ball {
     dx = 0;
     dy = 0;
-    start = false;
     constructor(x, y, rX, rY, rotate, degStart, degEnd, color){
         this.x = x;
         this.y = y;
@@ -13,9 +12,14 @@ class Ball {
         this.degEnd = degEnd;
         this.color = color;
     }
-    draw(canvasBasic, correction){        
-        this.x += this.dx * correction;
-        this.y += this.dy * correction;
+    draw(canvasBasic, correction, game, paddle){ 
+        if(game.start){
+            this.x += this.dx * correction;
+            this.y += this.dy * correction;
+        } else {
+            this.x = paddle.curveX;
+        }      
+
 
         canvasBasic.ctx.save();
         canvasBasic.ctx.beginPath();

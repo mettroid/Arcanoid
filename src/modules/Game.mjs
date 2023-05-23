@@ -1,6 +1,7 @@
 class Game {
-    lives;
+    lives = 0;
     scores = 0;
+    start = false;
     constructor(canvasBasic, images, phase){
         this.canvasBasic = canvasBasic;
         this.score = 0;
@@ -19,7 +20,10 @@ class Game {
         btnDifficult.draw();
     }   
     setLives(lives){
-        this.lives = lives;
+        this.lives += lives;
+    }
+    setScores(scores){
+        this.scores += scores;
     }
     drawTopMenu(){
          this.canvasBasic.ctx.save();
