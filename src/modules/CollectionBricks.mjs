@@ -6,8 +6,9 @@ class CollectionBricks {
     #offsetL = 100;
     #offsetT = 130;
     #collection;
-    brickRowCount = 3;
-    brickColumnCount = 4;
+    brickRowCount = 1;
+    brickColumnCount = 1;
+    countDestroyedBricks = 0;
     properties = [
         { lives: 3, scores: 30, thing: "apple", color: "red" },
         { lives: 2, scores: 20, thing: "orange", color: "green" },
@@ -42,6 +43,9 @@ class CollectionBricks {
     }
     getColl(){
         return this.#collection;
+    }
+    isAllBroken(){
+        return this.brickRowCount * this.brickColumnCount === this.countDestroyedBricks;
     }
 }
 export {CollectionBricks}

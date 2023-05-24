@@ -45,6 +45,7 @@ function draw(){
         let lastUpdate = performance.now();
         let correction = 0;
         let myGame;
+        let flag = false;
         function frame_loop(currentTime){
             myGame = requestAnimationFrame(frame_loop);
             deltaTime = currentTime - lastUpdate;
@@ -70,13 +71,24 @@ function draw(){
                         game.drawTopMenu();
                         paddle.draw(canvasBasic, correction);
                         ball.draw(canvasBasic, correction, game, paddle);
-                        
                         collectionBricks.draw(canvasBasic);
-                        ball.outField(paddle, game);
+
+                        if(collectionBricks.isAllBroken()){
+                            if(!flag){
+                                setTimeout(function(){
+                                    game.phase = 'winner';
+                                }, 1000);
+                            }
+                        } else {
+                            ball.outField(paddle, game);
+                        }
+                        
+                    break;
+                    case 'winner':
+                        game.winner();    
                     break;
                     case 'game_over': 
                         game.game_over();
-                        return;
                     break;
                 }      
 

@@ -18,5 +18,6 @@ class Brick {
         canvas.ctx.fill();
         canvas.ctx.stroke();
     }
+    
 }
 export {Brick}

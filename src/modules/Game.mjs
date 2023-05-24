@@ -50,6 +50,22 @@ class Game {
         this.canvasBasic.ctx.fillText('GAME OVER', x, y);
         this.canvasBasic.ctx.closePath();
     }
+    winner(){
+        
+        this.canvasBasic.ctx.fillStyle = "rgb(10, 218, 233)";
+        this.canvasBasic.ctx.fillRect(0, 0, this.canvasBasic.elem.width, this.canvasBasic.elem.height);
+
+        this.canvasBasic.ctx.strokeStyle = "green";
+        this.canvasBasic.ctx.font = '50px Arial';
+        this.canvasBasic.ctx.textAlign = 'center';
+        this.canvasBasic.ctx.strokeText('Вы выиграли!', this.canvasBasic.elem.width / 2, this.canvasBasic.elem.height / 2);
+
+        this.canvasBasic.ctx.strokeStyle = "rgb(250, 9, 230)";
+        this.canvasBasic.ctx.font = '40px comic';
+        this.canvasBasic.ctx.textAlign = 'center';
+        this.canvasBasic.ctx.strokeText(`Счёт: ${this.scores}`, this.canvasBasic.elem.width / 2, this.canvasBasic.elem.height / 2 + 50);
+
+    }
 
 }
 export {Game};

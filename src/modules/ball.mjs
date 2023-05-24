@@ -92,6 +92,8 @@ class Ball {
                 } 
                 if(brick.lives === 0){
                     game.setScores(brick.scores);
+                    collectionBricks.countDestroyedBricks++;
+                    console.log(collectionBricks.countDestroyedBricks);
                 }
             }
         }
