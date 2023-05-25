@@ -6,8 +6,8 @@ class CollectionBricks {
     #offsetL = 100;
     #offsetT = 130;
     #collection;
-    brickRowCount = 1;
-    brickColumnCount = 1;
+    brickRowCount = 3;
+    brickColumnCount = 4;
     countDestroyedBricks = 0;
     properties = [
         { lives: 3, scores: 30, thing: "apple", color: "red" },
