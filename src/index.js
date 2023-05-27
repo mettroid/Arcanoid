@@ -105,7 +105,7 @@ async function init(){
             pictureColl = await Promise.all(Wrap.promise(images));
             
             game = new Game(canvasBasic, pictureColl, phase);
-            title = new Title('purple', 'ARCANOID', canvasBasic);
+            title = new Title("rgb(23, 241, 3)", 'ARCANOID', canvasBasic);
             btnEasy = new Button(225, 500, 250, 50, [10,10,10,10], '#F5D209', 'easy', canvasBasic);
             btnNormal = new Button(225, 570, 250, 50, [10,10,10,10], '#F56E09', 'normal', canvasBasic);
             btnDifficult = new Button(225, 640, 250, 50, [10,10,10,10], '#F50927', 'difficult', canvasBasic);
