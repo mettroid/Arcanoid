@@ -9,7 +9,7 @@ class Game {
         this.phase = phase;
     }
     async screen_saver(btnEasy, btnNormal, btnDifficult, title){
-        let imgBitMap = await createImageBitmap(this.collections[0], 0, 0, 80, 85); //background
+        let imgBitMap = await createImageBitmap(this.collections[0], 0, 0, 82, 80); //background
         const pattern = this.canvasBasic.ctx.createPattern(imgBitMap, 'repeat');
         this.canvasBasic.ctx.fillStyle = pattern;
         this.canvasBasic.ctx.fillRect(0,0,this.canvasBasic.elem.width,this.canvasBasic.elem.height);
