@@ -12,6 +12,7 @@ class Button {
         this.ctx = canvas.ctx;
     }
     draw(){
+        this.ctx.save();
         let x = Math.floor(this.canvas.elem.width / 2);
 
         this.ctx.strokeRect = 'black';
@@ -29,6 +30,7 @@ class Button {
 
         this.ctx.strokeText(this.name, x, this.y + 25);
         this.path2D = path;
+        this.ctx.restore();
     }
 }
 export {Button}

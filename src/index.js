@@ -13,6 +13,8 @@ import {Paddle} from './modules/Paddle.mjs';
 import {Ball} from './modules/ball.mjs';
 import { CollectionBricks } from './modules/CollectionBricks.mjs';
 import { Brick } from './modules/brick.mjs';
+import * as Picture from './modules/Picture.mjs';
+import * as Sprites from './modules/Sprites.mjs';
 
 let canvasBasic = new Canvas('canvasBasic', document.getElementById('field'));
 canvasBasic.create(1, 1, false, 1);
@@ -68,6 +70,7 @@ function draw(){
                         ball.hitPaddle(paddle, animate, correction);
                         ball.hitBrick(collectionBricks, game);
                         
+                        game.drawBack();
                         game.drawTopMenu();
                         paddle.draw(canvasBasic, correction);
                         ball.draw(canvasBasic, correction, game, paddle);
@@ -101,9 +104,10 @@ function draw(){
 }
 async function init(){
     try {
-        let images = await import('./modules/images.mjs'); //sprite1 sprite2 ..
-            pictureColl = await Promise.all(Wrap.promise(images));
-            
+            let {default: path} = await import('./images/sprites.png'); //sprites.
+            let picture = await Picture.load(path);
+            pictureColl = await Promise.all(Sprites.cut(picture));
+            console.log(pictureColl[0]);
             game = new Game(canvasBasic, pictureColl, phase);
             title = new Title("rgb(23, 241, 3)", 'ARCANOID', canvasBasic);
             btnEasy = new Button(225, 500, 250, 50, [10,10,10,10], '#F5D209', 'easy', canvasBasic);
