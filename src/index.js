@@ -19,6 +19,7 @@ import * as Sprites from './modules/Sprites.mjs';
 let canvasBasic = new Canvas('canvasBasic', document.getElementById('field'));
 canvasBasic.create(1, 1, false, 1);
 
+let audioCtx;
 let phase = 'sceen_saver';
 let game;
 let eventsMenu, eventsGame; //объект обработчик событий мыши
@@ -33,7 +34,8 @@ let collectionBricks = new CollectionBricks();
 
 window.onload = function(){
     if(canvasBasic.ctx){
-            init();
+            initGame();
+            initAudio();
     }
 }
 function call_before_draw_frames(){
@@ -102,7 +104,7 @@ function draw(){
     });
 
 }
-async function init(){
+async function initGame(){
     try {
             let {default: path} = await import('./images/sprites.png'); //sprites.
             let picture = await Picture.load(path);
@@ -121,7 +123,7 @@ async function init(){
             canvasBasic.elem.addEventListener('mousedown', eventsMenu);
             canvasBasic.elem.addEventListener('mouseup', eventsMenu);
            
-            paddle = new Paddle(310, 750, 80, 20, 10, 'blue', canvasBasic.elem.width);
+            paddle = new Paddle(310, 750, 80, 20, 10, 'white', canvasBasic.elem.width);
             ball = new Ball(350, 740, 10, 10, 0, 0, Math.PI*2, "red");
             collectionBricks.fill(Brick);
             eventsGame = new EventsGame(ball, paddle, canvasBasic, game, animate);
@@ -131,6 +133,11 @@ async function init(){
     } catch (error) {
         console.log(error.message);
     }
-
- 
+}
+function initAudio(){
+    try {
+        audioCtx = new AudioContext();
+    } catch(error){
+        console.log('you need webaudio support');
+    }
 }
