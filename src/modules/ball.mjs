@@ -113,7 +113,14 @@ class Ball {
     }
     outField(paddle, game){
         if(this.y + this.rY > paddle.y + paddle.h){
-            game.phase = 'game_over';
+            game.decreaseLives(1);
+            if(game.lives > 0){
+                this.setInitValues(this.defaultSet);
+                paddle.setInitValues(paddle.defaultSet);
+                game.start = false;
+            } else {
+                game.phase = 'game_over';
+            }
         }
     }
     delay(squeeze, ms, val, temp){

@@ -23,7 +23,13 @@ class Game {
         btnDifficult.draw();
     }   
     setLives(lives){
+        this.lives = lives;
+    }
+    increaseLives(lives){
         this.lives += lives;
+    }
+    decreaseLives(lives){
+        this.lives -= lives;
     }
     setScores(scores){
         this.scores += scores;
