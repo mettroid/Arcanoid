@@ -5,7 +5,18 @@ class Paddle {
     curveY;
     name = 'paddle';
     vx = 200;
-    constructor(x, y, w, h, r, color){
+    defaultSet = {};
+    constructor(x , y, w, h, r, color){
+        this.defaultSet.x = x;
+        this.defaultSet.y = y;
+        this.defaultSet.w = w;
+        this.defaultSet.h = h;
+        this.defaultSet.r = r;
+        this.defaultSet.color = color;
+         
+        this.setInitValues(this.defaultSet);
+    }
+    setInitValues({ x, y, w, h, r, color}){
         this.x = x;
         this.y = y;
         this.w = w;

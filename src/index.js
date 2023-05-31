@@ -13,10 +13,13 @@ import {Paddle} from './modules/Paddle.mjs';
 import {Ball} from './modules/ball.mjs';
 import { CollectionBricks } from './modules/CollectionBricks.mjs';
 import { Brick } from './modules/brick.mjs';
+import * as Picture from './modules/Picture.mjs';
+import * as Sprites from './modules/Sprites.mjs';
 
 let canvasBasic = new Canvas('canvasBasic', document.getElementById('field'));
 canvasBasic.create(1, 1, false, 1);
 
+let audioCtx, audioBuf;
 let phase = 'sceen_saver';
 let game;
 let eventsMenu, eventsGame; //объект обработчик событий мыши
@@ -31,7 +34,8 @@ let collectionBricks = new CollectionBricks();
 
 window.onload = function(){
     if(canvasBasic.ctx){
-            init();
+            initGame();
+            initAudio();
     }
 }
 function call_before_draw_frames(){
@@ -68,6 +72,7 @@ function draw(){
                         ball.hitPaddle(paddle, animate, correction);
                         ball.hitBrick(collectionBricks, game);
                         
+                        game.drawBack();
                         game.drawTopMenu();
                         paddle.draw(canvasBasic, correction);
                         ball.draw(canvasBasic, correction, game, paddle);
@@ -99,11 +104,12 @@ function draw(){
     });
 
 }
-async function init(){
+async function initGame(){
     try {
-        let images = await import('./modules/images.mjs'); //sprite1 sprite2 ..
-            pictureColl = await Promise.all(Wrap.promise(images));
-            
+            let {default: path} = await import('./images/sprites.png'); //sprites.
+            let picture = await Picture.load(path);
+            pictureColl = await Promise.all(Sprites.cut(picture));
+            console.log(pictureColl[0]);
             game = new Game(canvasBasic, pictureColl, phase);
             title = new Title("rgb(23, 241, 3)", 'ARCANOID', canvasBasic);
             btnEasy = new Button(225, 500, 250, 50, [10,10,10,10], '#F5D209', 'easy', canvasBasic);
@@ -117,8 +123,8 @@ async function init(){
             canvasBasic.elem.addEventListener('mousedown', eventsMenu);
             canvasBasic.elem.addEventListener('mouseup', eventsMenu);
            
-            paddle = new Paddle(310, 750, 80, 20, 10, 'blue', canvasBasic.elem.width);
-            ball = new Ball(350, 740, 10, 10, 0, 0, Math.PI*2, "red");
+            paddle = new Paddle( 310, 750, 80, 20, 10, 'white');
+            ball = new Ball( 350, 740, 10, 10, 0, 0, Math.PI*2, "red" );
             collectionBricks.fill(Brick);
             eventsGame = new EventsGame(ball, paddle, canvasBasic, game, animate);
             document.addEventListener('keydown', eventsGame);
@@ -127,6 +133,16 @@ async function init(){
     } catch (error) {
         console.log(error.message);
     }
-
- 
 }
+function initAudio(){
+    try {
+        audioCtx = new AudioContext();
+        loadFile();
+    } catch(error){
+        console.log('you need webaudio support');
+    }
+}
+function loadFile(){
+
+}
+

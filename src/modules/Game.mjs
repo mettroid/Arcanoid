@@ -1,3 +1,5 @@
+import { repeat } from "lodash";
+
 class Game {
     lives = 0;
     scores = 0;
@@ -9,10 +11,11 @@ class Game {
         this.phase = phase;
     }
     async screen_saver(btnEasy, btnNormal, btnDifficult, title){
-        let imgBitMap = await createImageBitmap(this.collections[0], 0, 0, 82, 80); //background
-        const pattern = this.canvasBasic.ctx.createPattern(imgBitMap, 'repeat');
+        this.canvasBasic.ctx.save();
+        const pattern = this.canvasBasic.ctx.createPattern(this.collections[1], 'repeat');
         this.canvasBasic.ctx.fillStyle = pattern;
         this.canvasBasic.ctx.fillRect(0,0,this.canvasBasic.elem.width,this.canvasBasic.elem.height);
+        this.canvasBasic.ctx.restore();
 
         title.draw();
         btnEasy.draw();
@@ -20,7 +23,13 @@ class Game {
         btnDifficult.draw();
     }   
     setLives(lives){
+        this.lives = lives;
+    }
+    increaseLives(lives){
         this.lives += lives;
+    }
+    decreaseLives(lives){
+        this.lives -= lives;
     }
     setScores(scores){
         this.scores += scores;
@@ -39,6 +48,13 @@ class Game {
          this.canvasBasic.ctx.fillText(`Score : ${this.scores}`, Math.floor(this.canvasBasic.elem.width / 2), 65, 120);
          this.canvasBasic.ctx.restore();
         
+    }
+    drawBack(){
+        this.canvasBasic.ctx.save();
+        const pattern = this.canvasBasic.ctx.createPattern(this.collections[0], 'repeat');
+        this.canvasBasic.ctx.fillStyle = pattern;
+        this.canvasBasic.ctx.fillRect(0, 70, this.canvasBasic.elem.width, this.canvasBasic.elem.height);
+        this.canvasBasic.ctx.restore();
     }
     game_over(){
         let x = Math.floor(this.canvasBasic.elem.width / 2);

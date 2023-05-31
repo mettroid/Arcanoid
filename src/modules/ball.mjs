@@ -2,7 +2,20 @@ import { inRange } from "lodash";
 class Ball {
     dx = 0;
     dy = 0;
-    constructor(x, y, rX, rY, rotate, degStart, degEnd, color){
+    defaultSet = {};
+    constructor( x, y, rX, rY, rotate, degStart, degEnd, color ){
+        this.defaultSet.x = x;
+        this.defaultSet.y = y;
+        this.defaultSet.rX = rX;
+        this.defaultSet.rY = rY;
+        this.defaultSet.rotate = rotate;
+        this.defaultSet.degStart = degStart;
+        this.defaultSet.degEnd = degEnd;
+        this.defaultSet.color = color;
+
+        this.setInitValues(this.defaultSet);
+    }  
+    setInitValues({ x, y, rX, rY, rotate, degStart, degEnd, color }){
         this.x = x;
         this.y = y;
         this.rX = rX;
@@ -10,7 +23,7 @@ class Ball {
         this.rotate = rotate;
         this.degStart = degStart;
         this.degEnd = degEnd;
-        this.color = color;
+        this.color = color;     
     }
     draw(canvasBasic, correction, game, paddle){ 
         if(game.start){
@@ -100,7 +113,14 @@ class Ball {
     }
     outField(paddle, game){
         if(this.y + this.rY > paddle.y + paddle.h){
-            game.phase = 'game_over';
+            game.decreaseLives(1);
+            if(game.lives > 0){
+                this.setInitValues(this.defaultSet);
+                paddle.setInitValues(paddle.defaultSet);
+                game.start = false;
+            } else {
+                game.phase = 'game_over';
+            }
         }
     }
     delay(squeeze, ms, val, temp){
