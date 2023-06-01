@@ -89,6 +89,7 @@ class Ball {
                    this.y + this.rY < brick.y + brick.h && this.y + this.rY >= brick.y){
                     if(this.x >= brick.x && this.x <= brick.x + brick.w){
                         //console.log('V');
+                        !brick.damaged && (brick.damaged = true);
                         brick.lives -= 1;
                         this.dy = -this.dy;
                         console.log(brick.color);
@@ -98,6 +99,7 @@ class Ball {
                    this.x - this.rX > brick.x && this.x - this.rX <= brick.x + brick.w){
                     if(this.y >= brick.y && this.y <= brick.y + brick.h){
                         //console.log('X');
+                        !brick.damaged && (brick.damaged = true);
                         brick.lives -= 1;
                         this.dx = -this.dx;
                         console.log(brick.color);

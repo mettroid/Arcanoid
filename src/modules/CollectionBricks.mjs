@@ -36,7 +36,10 @@ class CollectionBricks {
             for(let j = 0; j < this.brickRowCount; j++){
                brick = this.#collection[i][j];
                if(brick.lives > 0){
-                  brick.draw(canvas);
+                  brick.drawBrick(canvas);
+                  if(brick.damaged){
+                    brick.drawCrack(canvas);
+                  }
                }
             }
         }

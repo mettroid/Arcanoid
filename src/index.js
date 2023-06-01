@@ -142,7 +142,7 @@ function initAudio(){
         console.log('you need webaudio support');
     }
 }
-function loadFile(){
+async function loadFile(){
 
 }
 
