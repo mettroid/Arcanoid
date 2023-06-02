@@ -47,11 +47,13 @@ class Ball {
 
 
     }
-    hitWall(canvasBasic, animate){
+    hitWall(canvasBasic, eventCrash, animate){
         
         if(this.tempx + this.rX >= canvasBasic.elem.width || this.tempx - this.rX <= 0){ //стены
             this.tempx = this.x;
             this.dx = -this.dx;
+            
+            document.dispatchEvent(eventCrash);
         }
         if(this.tempy - this.rY <= 85){                                               //потолок
             this.tempy = this.y;

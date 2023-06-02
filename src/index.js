@@ -15,6 +15,7 @@ import { CollectionBricks } from './modules/CollectionBricks.mjs';
 import { Brick } from './modules/brick.mjs';
 import * as Picture from './modules/Picture.mjs';
 import * as Sprites from './modules/Sprites.mjs';
+import crashSound from "./sounds/crash.mp3";
 
 let canvasBasic = new Canvas('canvasBasic', document.getElementById('field'));
 canvasBasic.create(1, 1, false, 1);
@@ -29,7 +30,8 @@ let btnEasy, btnNormal, btnDifficult;
 let title;
 let animate = new Animate(); // объект анимации
 let collectionBricks = new CollectionBricks();
-
+let eventCrash = new Event('crash');
+let myAudio = new Audio(crashSound);
 
 
 window.onload = function(){
@@ -68,7 +70,7 @@ function draw(){
                     case 'game':
                        
                         ball.moveBall(correction);
-                        ball.hitWall(canvasBasic, animate);
+                        ball.hitWall(canvasBasic, eventCrash, animate);
                         ball.hitPaddle(paddle, animate, correction);
                         ball.hitBrick(collectionBricks, game);
                         
@@ -129,6 +131,10 @@ async function initGame(){
             eventsGame = new EventsGame(ball, paddle, canvasBasic, game, animate);
             document.addEventListener('keydown', eventsGame);
             document.addEventListener('keyup', eventsGame);
+            
+            document.addEventListener('crash', function(){           
+                myAudio.play();
+            });
         
     } catch (error) {
         console.log(error.message);
