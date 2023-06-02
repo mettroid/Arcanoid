@@ -98,6 +98,13 @@ export default {
                   }
                 }
             },
+            {
+              test: /\.mp3$/,
+              loader: 'file-loader',
+              options: {
+                name: 'sound/[name].[ext]' 
+              }
+            }
 
         ]
     }
