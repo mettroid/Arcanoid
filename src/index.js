@@ -67,7 +67,7 @@ function draw(){
                     break;
                     case 'game':
                        
-                        
+                        ball.moveBall(correction);
                         ball.hitWall(canvasBasic, animate);
                         ball.hitPaddle(paddle, animate, correction);
                         ball.hitBrick(collectionBricks, game);
@@ -124,7 +124,7 @@ async function initGame(){
             canvasBasic.elem.addEventListener('mouseup', eventsMenu);
            
             paddle = new Paddle( 310, 750, 80, 20, 10, 'white');
-            ball = new Ball( 350, 740, 10, 10, 0, 0, Math.PI*2, "red" );
+            ball = new Ball( 350, 739, 10, 10, 0, 0, Math.PI*2, "red" );
             collectionBricks.fill(Brick);
             eventsGame = new EventsGame(ball, paddle, canvasBasic, game, animate);
             document.addEventListener('keydown', eventsGame);

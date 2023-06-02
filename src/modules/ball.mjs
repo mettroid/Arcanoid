@@ -2,6 +2,8 @@ import { inRange } from "lodash";
 class Ball {
     dx = 0;
     dy = 0;
+    tempx = 0;
+    tempy = 0;
     defaultSet = {};
     constructor( x, y, rX, rY, rotate, degStart, degEnd, color ){
         this.defaultSet.x = x;
@@ -27,8 +29,8 @@ class Ball {
     }
     draw(canvasBasic, correction, game, paddle){ 
         if(game.start){
-            this.x += this.dx * correction;
-            this.y += this.dy * correction;
+            this.x = this.tempx;
+            this.y = this.tempy;
         } else {
             this.x = paddle.curveX;
         }      
@@ -47,15 +49,19 @@ class Ball {
     }
     hitWall(canvasBasic, animate){
         
-        if(this.x + this.rX > canvasBasic.elem.width || this.x - this.rX < 0){ //стены
+        if(this.tempx + this.rX >= canvasBasic.elem.width || this.tempx - this.rX <= 0){ //стены
+            this.tempx = this.x;
             this.dx = -this.dx;
         }
-        if(this.y - this.rY < 85){                                               //потолок
+        if(this.tempy - this.rY <= 85){                                               //потолок
+            this.tempy = this.y;
             this.dy = -this.dy;
         }
     }
-    hitPaddle(paddle, animate, correction){
-        if(this.y + this.rY + this.dy * correction > paddle.y && this.x >= paddle.x && this.x <= paddle.x + paddle.w){
+    hitPaddle(paddle, animate){
+        if(this.tempy + this.rY >= paddle.y && this.tempx >= paddle.x && this.tempx <= paddle.x + paddle.w){
+            this.tempx = this.x;
+            this.tempy = this.y;
             this.dy = -this.dy;
             animate.addObj({
                 subObj: paddle,
@@ -68,14 +74,15 @@ class Ball {
                     ]
                 ]
             });  
-        }    
-        if(this.y + this.rY + this.dy * correction > paddle.y &&
-           (this.x + this.rX + this.dx < paddle.x + paddle.w && this.x + this.rX + this.dx >= paddle.x ||
-            this.x - this.rX + this.dx > paddle.x && this.x - this.rX + this.dx <= paddle.x + paddle.w)){
-                    this.dx = -this.dx;              
+        } else if(this.tempy + this.rY > paddle.y &&
+           (this.tempx + this.rX < paddle.x + paddle.w && this.tempx + this.rX >= paddle.x ||
+            this.tempx - this.rX > paddle.x && this.tempx - this.rX <= paddle.x + paddle.w)){
+                this.tempx = this.x;
+                this.tempy = this.y;
+                this.dx = -this.dx;              
         }
     }
-    hitBrick(collectionBricks, game){
+    hitBrick(collectionBricks, game, correction){
         
         let bricks = collectionBricks.getColl();
         let brick;
@@ -85,22 +92,26 @@ class Ball {
                 
                 brick = bricks[i][j];
                 if(brick.lives === 0) continue;
-                if(this.y - this.rY > brick.y && this.y - this.rY <= brick.y + brick.h || //удар в кирпич во y
-                   this.y + this.rY < brick.y + brick.h && this.y + this.rY >= brick.y){
-                    if(this.x >= brick.x && this.x <= brick.x + brick.w){
+                if(this.tempy - this.rY > brick.y && this.tempy - this.rY <= brick.y + brick.h || //удар в кирпич во y
+                   this.tempy + this.rY < brick.y + brick.h && this.tempy + this.rY >= brick.y){
+                    if(this.tempx >= brick.x && this.tempx <= brick.x + brick.w){
                         //console.log('V');
                         !brick.damaged && (brick.damaged = true);
                         brick.lives -= 1;
+                        this.tempx = this.x;
+                        this.tempy = this.y;
                         this.dy = -this.dy;
                         console.log(brick.color);
                     }
                 }
-                if(this.x + this.rX < brick.x + brick.w && this.x + this.rX >= brick.x || //удар в кирпич по x
-                   this.x - this.rX > brick.x && this.x - this.rX <= brick.x + brick.w){
-                    if(this.y >= brick.y && this.y <= brick.y + brick.h){
+                if(this.tempx + this.rX < brick.x + brick.w && this.tempx + this.rX >= brick.x || //удар в кирпич по x
+                   this.tempx - this.rX > brick.x && this.tempx - this.rX <= brick.x + brick.w){
+                    if(this.tempy >= brick.y && this.tempy <= brick.y + brick.h){
                         //console.log('X');
                         !brick.damaged && (brick.damaged = true);
                         brick.lives -= 1;
+                        this.tempx = this.x;
+                        this.tempy = this.y;
                         this.dx = -this.dx;
                         console.log(brick.color);
                     }
@@ -133,6 +144,10 @@ class Ball {
             this[squeeze] = false;
             this[temp] = val;
         }, ms);
+    }
+    moveBall(correction){
+        this.tempx = this.x + this.dx * correction;
+        this.tempy = this.y + this.dy * correction;
     }
 }
 export {Ball}
