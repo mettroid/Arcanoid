@@ -18,7 +18,6 @@ import * as Sprites from './modules/Sprites.mjs';
 import crashSound from "./sounds/crash.mp3";
 
 let canvasBasic = new Canvas('canvasBasic', document.getElementById('field'));
-canvasBasic.create(1, 1, false, 1);
 
 let audioCtx, audioBuf;
 let phase = 'sceen_saver';
