@@ -1,19 +1,19 @@
 import './index.html';
 import './style.scss';
-import {Canvas} from './modules/Canvas.mjs';
-import {Game} from './modules/Game.mjs';
-import {Title} from './modules/Title.mjs';
-import {Button} from './modules/Button.mjs'
-import {ButtonsCollections} from './modules/ButtonsCollections.mjs';
-import {Animate} from './modules/Animate.mjs';
+import { Canvas } from './modules/Canvas.mjs';
+import { Game } from './modules/Game.mjs';
+import { Title } from './modules/Title.mjs';
+import { Button } from './modules/Button.mjs'
+import { ButtonsCollections } from './modules/ButtonsCollections.mjs';
+import { Animate } from './modules/Animate.mjs';
 import * as Wrap from './modules/wrap_promise.mjs';
-import {EventsMenu} from './modules/EventsMenu.mjs';
-import {EventsGame} from './modules/EventsGame.mjs';
-import {Paddle} from './modules/Paddle.mjs';
-import {Ball} from './modules/ball.mjs';
+import { EventsMenu } from './modules/EventsMenu.mjs';
+import { EventsGame } from './modules/EventsGame.mjs';
+import { Paddle } from './modules/Paddle.mjs';
+import { Ball } from './modules/ball.mjs';
 import { CollectionBricks } from './modules/CollectionBricks.mjs';
 import { Brick } from './modules/brick.mjs';
-import * as Picture from './modules/Picture.mjs';
+import * as LoadFile from './modules/LoadFile.mjs';
 import * as Sprites from './modules/Sprites.mjs';
 import crashSound from "./sounds/crash.mp3";
 
@@ -24,14 +24,13 @@ let phase = 'sceen_saver';
 let game;
 let eventsMenu, eventsGame; //объект обработчик событий мыши
 let ball, paddle;
-let pictureColl;
 let btnEasy, btnNormal, btnDifficult;
 let title;
 let animate = new Animate(); // объект анимации
 let collectionBricks = new CollectionBricks();
-let eventCrash = new Event('crash');
-let myAudio = new Audio(crashSound);
-
+let soundEvent = new Event('soundEvent');
+let pictureColl;
+let audioColl;
 
 window.onload = function(){
     if(canvasBasic.ctx){
@@ -107,8 +106,8 @@ function draw(){
 }
 async function initGame(){
     try {
-            let {default: path} = await import('./images/sprites.png'); //sprites.
-            let picture = await Picture.load(path);
+            
+            let picture = await LoadFile.image();
             pictureColl = await Promise.all(Sprites.cut(picture));
             console.log(pictureColl[0]);
             game = new Game(canvasBasic, pictureColl, phase);
@@ -116,9 +115,14 @@ async function initGame(){
             btnEasy = new Button(225, 500, 250, 50, [10,10,10,10], '#F5D209', 'easy', canvasBasic);
             btnNormal = new Button(225, 570, 250, 50, [10,10,10,10], '#F56E09', 'normal', canvasBasic);
             btnDifficult = new Button(225, 640, 250, 50, [10,10,10,10], '#F50927', 'difficult', canvasBasic);
-            eventsMenu = new EventsMenu(btnEasy, btnNormal, btnDifficult, canvasBasic, game, animate);
+            eventsMenu = new EventsMenu(btnEasy, btnNormal, btnDifficult, canvasBasic, game, animate, soundEvent);
             
             await draw();
+            
+            let res = LoadFile.sound();
+            audioColl = await Promise.all(res);
+            console.log(audioColl[0].src);
+            canvasBasic.elem.addEventListener('soundEvent', () => audioColl[0].play());
             canvasBasic.elem.addEventListener('mousemove', eventsMenu);
             canvasBasic.elem.addEventListener('click', eventsMenu);
             canvasBasic.elem.addEventListener('mousedown', eventsMenu);
@@ -131,9 +135,6 @@ async function initGame(){
             document.addEventListener('keydown', eventsGame);
             document.addEventListener('keyup', eventsGame);
             
-            document.addEventListener('crash', function(){           
-                myAudio.play();
-            });
         
     } catch (error) {
         console.log(error.message);

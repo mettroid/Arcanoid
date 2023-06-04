@@ -5,11 +5,12 @@ import * as Mouse from './mouseCoords.mjs';
 class EventsMenu extends Events {
     currObj = null;
     startCoords = null;
-    constructor(btnEasy, btnNormal, btnDifficult, canvasBasic, game, animate){
+    constructor(btnEasy, btnNormal, btnDifficult, canvasBasic, game, animate, soundEvent){
         super(canvasBasic, game, animate);
         this.btnEasy = btnEasy;
         this.btnNormal = btnNormal;
         this.btnDifficult = btnDifficult;
+        this.soundEvent = soundEvent;
         
     }
     handleEvent(e){
@@ -66,6 +67,7 @@ class EventsMenu extends Events {
                                     ]
                         ]
                 });
+                this.canvasBasic.elem.dispatchEvent(this.soundEvent);
                 this.currObj = button;
             break;
         }
