@@ -28,7 +28,7 @@ let btnEasy, btnNormal, btnDifficult;
 let title;
 let animate = new Animate(); // объект анимации
 let collectionBricks = new CollectionBricks();
-let soundEvent = new Event('soundEvent');
+//let soundEvent = new Event('soundEvent');
 let pictureColl;
 let audioColl;
 
@@ -68,9 +68,9 @@ function draw(){
                     case 'game':
                        
                         ball.moveBall(correction);
-                        ball.hitWall(canvasBasic, eventCrash, animate);
-                        ball.hitPaddle(paddle, animate, correction);
-                        ball.hitBrick(collectionBricks, game);
+                        ball.hitWall(canvasBasic, animate);
+                        ball.hitPaddle(canvasBasic, paddle, animate, correction);
+                        ball.hitBrick(canvasBasic, collectionBricks, game);
                         
                         game.drawBack();
                         game.drawTopMenu();
@@ -115,14 +115,21 @@ async function initGame(){
             btnEasy = new Button(225, 500, 250, 50, [10,10,10,10], '#F5D209', 'easy', canvasBasic);
             btnNormal = new Button(225, 570, 250, 50, [10,10,10,10], '#F56E09', 'normal', canvasBasic);
             btnDifficult = new Button(225, 640, 250, 50, [10,10,10,10], '#F50927', 'difficult', canvasBasic);
-            eventsMenu = new EventsMenu(btnEasy, btnNormal, btnDifficult, canvasBasic, game, animate, soundEvent);
+            eventsMenu = new EventsMenu(btnEasy, btnNormal, btnDifficult, canvasBasic, game, animate);
             
             await draw();
             
             let res = LoadFile.sound();
             audioColl = await Promise.all(res);
             console.log(audioColl[0].src);
-            canvasBasic.elem.addEventListener('soundEvent', () => audioColl[0].play());
+
+            canvasBasic.elem.addEventListener('soundEvent', function(e){
+                console.log(e.type);
+                let ind = e.detail.name;
+                audioColl[ind].play();
+                console.log(ind);
+            });
+
             canvasBasic.elem.addEventListener('mousemove', eventsMenu);
             canvasBasic.elem.addEventListener('click', eventsMenu);
             canvasBasic.elem.addEventListener('mousedown', eventsMenu);

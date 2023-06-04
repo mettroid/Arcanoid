@@ -14,7 +14,7 @@ function image(){
     });
 }
 function sound(){
-    let sounds = ["catchBall.mp3", "crashWall.mp3", "addScores.mp3"];  
+    let sounds = ["hoverMenu.mp3", "catchBall.mp3", "crashWall.mp3", "addScores.mp3", "crashBrick.mp3"];  
     return sounds.map(function(item){
             return new Promise(async function(resolve, reject){
                     let {default: path} = await import(`../sounds/${item}`);

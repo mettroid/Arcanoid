@@ -1,4 +1,4 @@
-import { inRange } from "lodash";
+import * as Audio from './audio.mjs';
 class Ball {
     dx = 0;
     dy = 0;
@@ -53,14 +53,16 @@ class Ball {
             this.tempx = this.x;
             this.dx = -this.dx;
             
-            document.dispatchEvent(eventCrash);
+            Audio.play(canvasBasic.elem, 2);
         }
         if(this.tempy - this.rY <= 85){                                               //потолок
             this.tempy = this.y;
             this.dy = -this.dy;
+
+            Audio.play(canvasBasic.elem, 2);
         }
     }
-    hitPaddle(paddle, animate){
+    hitPaddle(canvasBasic, paddle, animate){
         if(this.tempy + this.rY >= paddle.y && this.tempx >= paddle.x && this.tempx <= paddle.x + paddle.w){
             this.tempx = this.x;
             this.tempy = this.y;
@@ -76,6 +78,7 @@ class Ball {
                     ]
                 ]
             });  
+            Audio.play(canvasBasic.elem, 1);
         } else if(this.tempy + this.rY > paddle.y &&
            (this.tempx + this.rX < paddle.x + paddle.w && this.tempx + this.rX >= paddle.x ||
             this.tempx - this.rX > paddle.x && this.tempx - this.rX <= paddle.x + paddle.w)){
@@ -84,7 +87,7 @@ class Ball {
                 this.dx = -this.dx;              
         }
     }
-    hitBrick(collectionBricks, game, correction){
+    hitBrick(canvasBasic, collectionBricks, game, correction){
         
         let bricks = collectionBricks.getColl();
         let brick;
@@ -103,6 +106,7 @@ class Ball {
                         this.tempx = this.x;
                         this.tempy = this.y;
                         this.dy = -this.dy;
+                        Audio.play(canvasBasic.elem, 4);
                         console.log(brick.color);
                     }
                 }
@@ -115,12 +119,14 @@ class Ball {
                         this.tempx = this.x;
                         this.tempy = this.y;
                         this.dx = -this.dx;
+                        Audio.play(canvasBasic.elem, 4);
                         console.log(brick.color);
                     }
                 } 
                 if(brick.lives === 0){
                     game.setScores(brick.scores);
                     collectionBricks.countDestroyedBricks++;
+                    Audio.play(canvasBasic.elem, 3);
                     console.log(collectionBricks.countDestroyedBricks);
                 }
             }

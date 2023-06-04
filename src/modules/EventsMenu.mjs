@@ -2,15 +2,15 @@ import {Events} from './Events.mjs';
 import {inRange} from 'lodash';
 import * as IsPointInPath from './isPointInPath.mjs';
 import * as Mouse from './mouseCoords.mjs';
+import * as Audio from './audio.mjs';
 class EventsMenu extends Events {
     currObj = null;
     startCoords = null;
-    constructor(btnEasy, btnNormal, btnDifficult, canvasBasic, game, animate, soundEvent){
+    constructor(btnEasy, btnNormal, btnDifficult, canvasBasic, game, animate){
         super(canvasBasic, game, animate);
         this.btnEasy = btnEasy;
         this.btnNormal = btnNormal;
         this.btnDifficult = btnDifficult;
-        this.soundEvent = soundEvent;
         
     }
     handleEvent(e){
@@ -24,6 +24,7 @@ class EventsMenu extends Events {
                 let currCoords = Mouse.getCoords(e, this.canvasBasic.elem);
                 if(this.checkMatch(this.startCoords, currCoords) === undefined) return;
 
+                Audio.play(this.canvasBasic.elem, 0);
                 this.game.phase = 'game';
                 switch(this.currObj.name){
                     case 'easy':
@@ -67,7 +68,7 @@ class EventsMenu extends Events {
                                     ]
                         ]
                 });
-                this.canvasBasic.elem.dispatchEvent(this.soundEvent);
+
                 this.currObj = button;
             break;
         }
