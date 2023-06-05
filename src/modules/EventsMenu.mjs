@@ -6,12 +6,12 @@ import * as Audio from './audio.mjs';
 class EventsMenu extends Events {
     currObj = null;
     startCoords = null;
-    constructor(btnEasy, btnNormal, btnDifficult, canvasBasic, game, animate){
+    constructor(btnEasy, btnNormal, btnDifficult, canvasBasic, game, animate, audioColl){
         super(canvasBasic, game, animate);
         this.btnEasy = btnEasy;
         this.btnNormal = btnNormal;
         this.btnDifficult = btnDifficult;
-        
+        this.audioColl = audioColl;
     }
     handleEvent(e){
         if(this.game.phase !== 'sceen_saver') return;
@@ -24,7 +24,8 @@ class EventsMenu extends Events {
                 let currCoords = Mouse.getCoords(e, this.canvasBasic.elem);
                 if(this.checkMatch(this.startCoords, currCoords) === undefined) return;
 
-                Audio.play(this.canvasBasic.elem, 0);
+                console.log(this.audioColl);
+                Audio.play(this.audioColl[0]);
                 this.game.phase = 'game';
                 switch(this.currObj.name){
                     case 'easy':

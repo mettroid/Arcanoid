@@ -15,7 +15,6 @@ import { CollectionBricks } from './modules/CollectionBricks.mjs';
 import { Brick } from './modules/brick.mjs';
 import * as LoadFile from './modules/LoadFile.mjs';
 import * as Sprites from './modules/Sprites.mjs';
-import crashSound from "./sounds/crash.mp3";
 
 let canvasBasic = new Canvas('canvasBasic', document.getElementById('field'));
 
@@ -28,7 +27,6 @@ let btnEasy, btnNormal, btnDifficult;
 let title;
 let animate = new Animate(); // объект анимации
 let collectionBricks = new CollectionBricks();
-//let soundEvent = new Event('soundEvent');
 let pictureColl;
 let audioColl;
 
@@ -68,9 +66,9 @@ function draw(){
                     case 'game':
                        
                         ball.moveBall(correction);
-                        ball.hitWall(canvasBasic, animate);
-                        ball.hitPaddle(canvasBasic, paddle, animate, correction);
-                        ball.hitBrick(canvasBasic, collectionBricks, game);
+                        ball.hitWall(canvasBasic, audioColl[2], animate);
+                        ball.hitPaddle(paddle, audioColl[1], animate);
+                        ball.hitBrick(collectionBricks, audioColl, game);
                         
                         game.drawBack();
                         game.drawTopMenu();
@@ -108,28 +106,18 @@ async function initGame(){
     try {
             
             let picture = await LoadFile.image();
-            pictureColl = await Promise.all(Sprites.cut(picture));
-            console.log(pictureColl[0]);
+            pictureColl = await Promise.all(Sprites.cut(picture));            
+            let sounds = LoadFile.sound();
+            audioColl = await Promise.all(sounds);
             game = new Game(canvasBasic, pictureColl, phase);
             title = new Title("rgb(23, 241, 3)", 'ARCANOID', canvasBasic);
             btnEasy = new Button(225, 500, 250, 50, [10,10,10,10], '#F5D209', 'easy', canvasBasic);
             btnNormal = new Button(225, 570, 250, 50, [10,10,10,10], '#F56E09', 'normal', canvasBasic);
             btnDifficult = new Button(225, 640, 250, 50, [10,10,10,10], '#F50927', 'difficult', canvasBasic);
-            eventsMenu = new EventsMenu(btnEasy, btnNormal, btnDifficult, canvasBasic, game, animate);
+            eventsMenu = new EventsMenu(btnEasy, btnNormal, btnDifficult, canvasBasic, game, animate, audioColl);
             
             await draw();
-            
-            let res = LoadFile.sound();
-            audioColl = await Promise.all(res);
-            console.log(audioColl[0].src);
-
-            canvasBasic.elem.addEventListener('soundEvent', function(e){
-                console.log(e.type);
-                let ind = e.detail.name;
-                audioColl[ind].play();
-                console.log(ind);
-            });
-
+        
             canvasBasic.elem.addEventListener('mousemove', eventsMenu);
             canvasBasic.elem.addEventListener('click', eventsMenu);
             canvasBasic.elem.addEventListener('mousedown', eventsMenu);
@@ -138,7 +126,7 @@ async function initGame(){
             paddle = new Paddle( 310, 750, 80, 20, 10, 'white');
             ball = new Ball( 350, 739, 10, 10, 0, 0, Math.PI*2, "red" );
             collectionBricks.fill(Brick);
-            eventsGame = new EventsGame(ball, paddle, canvasBasic, game, animate);
+            eventsGame = new EventsGame(ball, paddle, canvasBasic, game, animate, audioColl);
             document.addEventListener('keydown', eventsGame);
             document.addEventListener('keyup', eventsGame);
             

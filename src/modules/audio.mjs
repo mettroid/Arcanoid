@@ -1,9 +1,10 @@
-function play(elem, name){
-    elem.dispatchEvent(new CustomEvent('soundEvent', {
-        detail: { name: name }
-    }));
+function play(audio){
+      if(!audio.ended){ 
+        audio.currentTime = 0;
+      }  
+      audio.play();
 }
 function stop(){
-
+    
 }
 export {play, stop}
