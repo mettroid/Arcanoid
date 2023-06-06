@@ -27,7 +27,7 @@ class Ball {
         this.degEnd = degEnd;
         this.color = color;     
     }
-    draw(canvasBasic, correction, game, paddle){ 
+    draw(canvasBasic, game, paddle){ 
         if(game.start){
             this.x = this.tempx;
             this.y = this.tempy;
@@ -39,6 +39,7 @@ class Ball {
         canvasBasic.ctx.save();
         canvasBasic.ctx.beginPath();
         canvasBasic.ctx.fillStyle = this.color;
+        canvasBasic.ctx.strokeStyle = 'black';
         canvasBasic.ctx.ellipse(this.x, this.y, this.rX, this.rY, this.rotate, this.degStart, this.degEnd);
         canvasBasic.ctx.fill();
         canvasBasic.ctx.stroke();
@@ -63,7 +64,7 @@ class Ball {
         }
     }
     hitPaddle(paddle, sound, animate){
-        if(this.tempy + this.rY >= paddle.y && this.tempx >= paddle.x && this.tempx <= paddle.x + paddle.w){
+        if(this.tempy + this.rY >= paddle.y && this.tempx >= paddle.tempx && this.tempx <= paddle.tempx + paddle.w){
             this.tempx = this.x;
             this.tempy = this.y;
             this.dy = -this.dy;
@@ -80,8 +81,8 @@ class Ball {
             });  
             Audio.play(sound);
         } else if(this.tempy + this.rY > paddle.y &&
-           (this.tempx + this.rX < paddle.x + paddle.w && this.tempx + this.rX >= paddle.x ||
-            this.tempx - this.rX > paddle.x && this.tempx - this.rX <= paddle.x + paddle.w)){
+           (this.tempx + this.rX < paddle.tempx + paddle.w && this.tempx + this.rX >= paddle.tempx ||
+            this.tempx - this.rX > paddle.tempx && this.tempx - this.rX <= paddle.tempx + paddle.w)){
                 this.tempx = this.x;
                 this.tempy = this.y;
                 this.dx = -this.dx;              

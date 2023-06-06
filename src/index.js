@@ -66,14 +66,16 @@ function draw(){
                     case 'game':
                        
                         ball.moveBall(correction);
+                        paddle.movePaddle(canvasBasic, correction);
                         ball.hitWall(canvasBasic, audioColl[2], animate);
                         ball.hitPaddle(paddle, audioColl[1], animate);
                         ball.hitBrick(collectionBricks, audioColl, game);
                         
                         game.drawBack();
                         game.drawTopMenu();
-                        paddle.draw(canvasBasic, correction);
-                        ball.draw(canvasBasic, correction, game, paddle);
+                        
+                        ball.draw(canvasBasic, game, paddle);
+                        paddle.draw(canvasBasic);
                         collectionBricks.draw(canvasBasic);
 
                         if(collectionBricks.isAllBroken()){

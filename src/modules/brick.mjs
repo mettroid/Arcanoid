@@ -12,14 +12,17 @@ class Brick {
         console.log(this.color);
     }
     drawBrick(canvas){
+        canvas.ctx.save();
         canvas.ctx.beginPath();
         canvas.ctx.fillStyle = this.color;
         canvas.ctx.strokeStyle = 'black';
         canvas.ctx.rect(this.x, this.y, this.w, this.h);
         canvas.ctx.fill();
         canvas.ctx.stroke();
+        canvas.ctx.restore();
     }
     drawCrack(canvas){
+        canvas.ctx.save();
         canvas.ctx.beginPath();
         canvas.ctx.strokeStyle = "white";
         canvas.ctx.lineWidth = 2;
@@ -29,6 +32,7 @@ class Brick {
         canvas.ctx.lineTo(this.x + Math.floor(this.w / 2) - 10, this.y + this.h);
         canvas.ctx.stroke();
         canvas.ctx.closePath();
+        canvas.ctx.restore();
     }
     
 }
