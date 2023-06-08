@@ -56,7 +56,8 @@ class Paddle {
         canvas.ctx.closePath();
         canvas.ctx.restore();
     }
-    movePaddle(canvas, correction){  
+    movePaddle(canvas, correction){
+        if(this.pressedLeft && this.pressedRight) return;
         if(this.pressedRight && this.x + this.w < canvas.elem.width){
             this.tempx = this.x + this.xmov * correction;
         }

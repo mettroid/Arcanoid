@@ -131,6 +131,8 @@ async function initGame(){
             eventsGame = new EventsGame(ball, paddle, canvasBasic, game, animate, audioColl);
             document.addEventListener('keydown', eventsGame);
             document.addEventListener('keyup', eventsGame);
+            document.addEventListener('mousemove', eventsGame);
+            document.addEventListener('click', eventsGame);
             
         
     } catch (error) {

@@ -26,18 +26,20 @@ class EventsMenu extends Events {
 
                 console.log(this.audioColl);
                 Audio.play(this.audioColl[0]);
-                this.game.phase = 'game';
-                switch(this.currObj.name){
-                    case 'easy':
-                        this.game.setLives(5);
-                    break;
-                    case 'normal':
-                        this.game.setLives(3);
-                    break;
-                    case 'difficult':
-                        this.game.setLives(1);
-                    break;
-                }
+                setTimeout(()=>{
+                    this.game.phase = 'game';
+                    switch(this.currObj.name){
+                        case 'easy':
+                            this.game.setLives(5);
+                        break;
+                        case 'normal':
+                            this.game.setLives(3);
+                        break;
+                        case 'difficult':
+                            this.game.setLives(1);
+                        break;
+                    }
+                }, 100);
             break;
             case 'mousemove':
                 let coords = Mouse.getCoords(e, this.canvasBasic.elem);
